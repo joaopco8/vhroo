@@ -24,8 +24,19 @@
 
 .animate-scroll {
   animation: scroll 40s linear infinite;
+  will-change: transform;
 }
 
 .animate-scroll-reverse {
   animation: scroll-reverse 40s linear infinite;
+  will-change: transform;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

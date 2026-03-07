@@ -5,8 +5,9 @@
 
 import { motion } from "motion/react";
 import { Menu, X, ArrowRight, ArrowLeft, Instagram, Twitter, Facebook, Youtube, Linkedin, Zap } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
 
 // Import Pages
 import Connect from "./pages/Connect";
@@ -19,6 +20,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CopyrightPolicy from "./pages/CopyrightPolicy";
 import Terms from "./pages/Terms";
 import CookiesPolicy from "./pages/CookiesPolicy";
+import Success from "./pages/Success";
 
 // Images – Hero & Founder
 import HeroBg from "./imgs/bg-2.jpg";
@@ -44,6 +46,8 @@ import WorkImg8 from "./imgs/works/maxresdefault (5).jpg";
 
 // Images – Clients
 import MrBeastImg from "./imgs/clients/Mr. Beast.jpg";
+import MrBeastPhoto from "./imgs/foto com mr beast.png";
+import MrBeastScaled from "./imgs/MrBeast-scaled-860x507-1.jpg";
 import SimonSquibbImg from "./imgs/clients/Simon Squibb.jpg";
 import ImanGadzhiImg from "./imgs/clients/Iman Gadzhi.jpg";
 import AliAbdaalImg from "./imgs/clients/Ali Abdaal.jpg";
@@ -53,9 +57,13 @@ import GrahamStephanImg from "./imgs/clients/Graham Stephan.jpg";
 import RyanTrahanImg from "./imgs/clients/Ryan Trahan.jpg";
 
 // Images – Article covers (blog highlights)
-import CoverCompetitor from "./imgs/capas artigos/How To Steal Your Competition’s Best Ideas (Legally).jpg";
-import CoverMonetization from "./imgs/capas artigos/How To Turn Your Channel Into A Revenue Machine.jpg";
-import CoverAnalytics from "./imgs/capas artigos/How To Read Your YouTube Analytics Like A Pro.jpg";
+// Using dynamic imports to handle special characters in filenames
+const CoverCompetitor = new URL("./imgs/capas artigos/How To Steal Your Competition's Best Ideas (Legally).jpg", import.meta.url).href;
+const CoverMonetization = new URL("./imgs/capas artigos/How To Turn Your Channel Into A Revenue Machine.jpg", import.meta.url).href;
+const CoverAnalytics = new URL("./imgs/capas artigos/How To Read Your YouTube Analytics Like A Pro.jpg", import.meta.url).href;
+
+// Images – Instagram
+import InstagramImg from "./imgs/instagram.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -80,7 +88,10 @@ const Navbar = () => {
           <Link to="/careers" className="hover:text-brand transition-colors">Careers</Link>
         </div>
         <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)}>
+          <button 
+            onClick={() => setIsOpen(!isOpen)}
+            className="hover:opacity-70 transition-opacity"
+          >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
@@ -105,6 +116,32 @@ const Navbar = () => {
 };
 
 const Hero = () => {
+  const [displayedText, setDisplayedText] = useState("");
+  const fullText = "ON YOUTUBE.";
+  const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    // Start typing animation after headline appears
+    const timer = setTimeout(() => {
+      setIsTyping(true);
+      setDisplayedText("");
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!isTyping) return;
+
+    if (displayedText.length < fullText.length) {
+      const timer = setTimeout(() => {
+        setDisplayedText(fullText.slice(0, displayedText.length + 1));
+      }, 100); // Speed of typing
+
+      return () => clearTimeout(timer);
+    }
+  }, [displayedText, isTyping, fullText]);
+
   return (
     <section className="relative pt-24 pb-16 overflow-hidden md:h-[65vh] md:flex md:items-center md:justify-center">
       {/* Desktop / tablet background */}
@@ -125,12 +162,13 @@ const Hero = () => {
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+      <div className="relative z-10 max-w-7xl mx-auto md:px-6 text-center">
         {/* Floating hero image on mobile */}
         <motion.img
           src={HeroMobileImage}
           alt="VHORO Media recording setup"
-          className="mx-auto mb-8 w-[95%] block md:hidden"
+          className="mb-8 w-full block md:hidden"
+          style={{ maxWidth: 'none', height: 'auto', width: '100vw', marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)' }}
           initial={{ y: -12 }}
           animate={{ y: [-12, 12, -12] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
@@ -139,12 +177,24 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-4xl md:text-[4.2rem] font-bold text-black leading-[1.1] tracking-normal uppercase"
+          className="text-4xl md:text-[4.2rem] font-bold text-black leading-[1.1] tracking-normal uppercase relative z-20"
         >
           <span className="block">DOUBLE YOUR CTR.</span>
           <span className="block">TRIPLE YOUR RETENTION.</span>
           <span className="block">SCALE YOUR REVENUE.</span>
         </motion.h1>
+        <p
+          className="text-2xl md:text-4xl text-brand relative z-20 mt-4 font-black"
+          style={{ 
+            fontFamily: '"Rock Salt", cursive',
+            fontWeight: 900
+          }}
+        >
+          {displayedText}
+          {displayedText.length < fullText.length && (
+            <span className="animate-pulse">|</span>
+          )}
+        </p>
       </div>
     </section>
   );
@@ -179,16 +229,42 @@ const WorkSection = () => {
     WorkImg8,
   ];
 
+  const [isInteracting1, setIsInteracting1] = useState(false);
+  const [isInteracting2, setIsInteracting2] = useState(false);
+
+
+  const handleInteractionStart1 = () => {
+    setIsInteracting1(true);
+  };
+
+  const handleInteractionEnd1 = () => {
+    // Retomar após um pequeno delay
+    setTimeout(() => {
+      setIsInteracting1(false);
+    }, 200);
+  };
+
+  const handleInteractionStart2 = () => {
+    setIsInteracting2(true);
+  };
+
+  const handleInteractionEnd2 = () => {
+    // Retomar após um pequeno delay
+    setTimeout(() => {
+      setIsInteracting2(false);
+    }, 200);
+  };
+
   return (
     <section className="py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start mb-16">
         <div>
           <p className="text-lg font-semibold leading-tight mb-8 max-w-md">
-            We are architects of attention, transforming social relevance into your channel’s most valuable growth asset.
+            We are architects of attention, transforming social relevance into your channel's most valuable growth asset.
           </p>
           <Link 
             to="/#pricing"
-            className="inline-block bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-colors"
+            className="inline-block bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 hover:scale-105 transition-all cursor-pointer"
           >
             CHOOSE YOUR PLAN
           </Link>
@@ -202,10 +278,30 @@ const WorkSection = () => {
 
       <div className="space-y-4">
         {/* Row 1 - Forward */}
-        <div className="flex whitespace-nowrap">
-          <div className="flex animate-scroll">
-            {[...row1, ...row1].map((item, i) => (
-              <div key={i} className="w-[280px] md:w-[420px] aspect-video mx-2 bg-gray-100 overflow-hidden rounded-xl">
+        <div 
+          className="flex whitespace-nowrap overflow-hidden scrollbar-hide"
+          onTouchStart={handleInteractionStart1}
+          onTouchEnd={handleInteractionEnd1}
+          onMouseDown={handleInteractionStart1}
+          onMouseUp={handleInteractionEnd1}
+          onMouseLeave={handleInteractionEnd1}
+          style={{ 
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}
+        >
+          <div 
+            className="flex animate-scroll"
+            style={{ 
+              animationPlayState: isInteracting1 ? 'paused' : 'running'
+            }}
+          >
+            {[...row1, ...row1, ...row1].map((item, i) => (
+              <div 
+                key={i} 
+                className="w-[280px] md:w-[420px] flex-shrink-0 aspect-video mx-2 bg-gray-100 overflow-hidden rounded-xl"
+              >
                 <img src={item} alt={`Work ${i}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               </div>
             ))}
@@ -213,10 +309,30 @@ const WorkSection = () => {
         </div>
 
         {/* Row 2 - Reverse */}
-        <div className="flex whitespace-nowrap">
-          <div className="flex animate-scroll-reverse">
-            {[...row2, ...row2].map((item, i) => (
-              <div key={i} className="w-[280px] md:w-[420px] aspect-video mx-2 bg-gray-100 overflow-hidden rounded-xl">
+        <div 
+          className="flex whitespace-nowrap overflow-hidden scrollbar-hide"
+          onTouchStart={handleInteractionStart2}
+          onTouchEnd={handleInteractionEnd2}
+          onMouseDown={handleInteractionStart2}
+          onMouseUp={handleInteractionEnd2}
+          onMouseLeave={handleInteractionEnd2}
+          style={{ 
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}
+        >
+          <div 
+            className="flex animate-scroll-reverse"
+            style={{ 
+              animationPlayState: isInteracting2 ? 'paused' : 'running'
+            }}
+          >
+            {[...row2, ...row2, ...row2].map((item, i) => (
+              <div 
+                key={i} 
+                className="w-[280px] md:w-[420px] flex-shrink-0 aspect-video mx-2 bg-gray-100 overflow-hidden rounded-xl"
+              >
                 <img src={item} alt={`Work ${i}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               </div>
             ))}
@@ -240,7 +356,8 @@ const ClientsSection = () => {
   ];
 
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const containerRef = useState<HTMLDivElement | null>(null);
+  const [isInteracting, setIsInteracting] = useState(false);
+
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -251,6 +368,17 @@ const ClientsSection = () => {
 
   const handleMouseLeave = () => {
     setMousePos({ x: 0, y: 0 });
+  };
+
+  const handleInteractionStart = () => {
+    setIsInteracting(true);
+  };
+
+  const handleInteractionEnd = () => {
+    // Retomar após um pequeno delay
+    setTimeout(() => {
+      setIsInteracting(false);
+    }, 200);
   };
 
   return (
@@ -280,13 +408,28 @@ const ClientsSection = () => {
             rotateX: -mousePos.y * 5,
           }}
           transition={{ type: "spring", stiffness: 100, damping: 30 }}
-          className="flex whitespace-nowrap"
+          className="flex whitespace-nowrap overflow-hidden scrollbar-hide"
+          onTouchStart={handleInteractionStart}
+          onTouchEnd={handleInteractionEnd}
+          onMouseDown={handleInteractionStart}
+          onMouseUp={handleInteractionEnd}
+          onMouseLeave={handleInteractionEnd}
+          style={{ 
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}
         >
-          <div className="flex animate-scroll py-10">
+          <div 
+            className="flex animate-scroll py-10"
+            style={{ 
+              animationPlayState: isInteracting ? 'paused' : 'running'
+            }}
+          >
             {[...clients, ...clients, ...clients].map((client, i) => (
               <div 
                 key={i} 
-                className="inline-block w-[240px] md:w-[320px] aspect-[3/4] mx-4 relative rounded-3xl overflow-hidden shadow-xl group"
+                className="inline-block flex-shrink-0 w-[240px] md:w-[320px] aspect-[3/4] mx-4 relative rounded-3xl overflow-hidden shadow-xl group"
               >
                 <img 
                   src={client.image} 
@@ -304,41 +447,113 @@ const ClientsSection = () => {
 
 const Logos = () => {
   return (
-    <div className="bg-black py-24 px-6">
-      <div className="max-w-5xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-neutral-900/70 border border-white/10 rounded-3xl px-6 py-10 md:px-12 md:py-12 flex flex-col md:flex-row md:items-center gap-10"
-        >
-          <div className="flex-shrink-0 flex flex-col items-center md:items-start gap-4">
-            <div className="inline-flex items-center justify-center bg-brand/10 rounded-full p-3">
-              <Youtube className="w-7 h-7 text-brand fill-current" />
-            </div>
-            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-brand shadow-lg">
+    <section className="bg-black py-32 md:py-40 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+          {/* Imagem */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            <div className="aspect-[860/507] overflow-hidden rounded-lg">
               <img 
-                src={MrBeastImg} 
+                src={MrBeastScaled} 
                 alt="MrBeast" 
                 className="w-full h-full object-cover"
+                loading="eager"
               />
             </div>
-            <div className="text-center md:text-left space-y-1">
-              <p className="text-white font-bold uppercase tracking-widest text-xs">MrBeast</p>
+          </motion.div>
+
+          {/* Texto */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-6"
+          >
+            <div className="space-y-2">
+              <p className="text-white/60 font-bold uppercase tracking-widest text-xs">MrBeast</p>
               <p className="text-brand text-[10px] font-bold uppercase tracking-widest">Global YouTube Authority</p>
             </div>
-          </div>
-
-          <div className="flex-1 text-left">
-            <blockquote className="text-2xl md:text-4xl font-medium text-white tracking-tight leading-snug italic mb-4">
-              “They understand the algorithm better than anyone I’ve worked with.”
+            
+            <blockquote className="text-3xl md:text-5xl lg:text-6xl font-medium text-white tracking-tight leading-tight italic">
+              “They understand the algorithm better than anyone I've worked with.”
             </blockquote>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-semibold">
+            
+            <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-semibold pt-4">
               Source: Private performance review from VHORO Media client portfolio
             </p>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
+    </section>
+  );
+};
+
+const InstagramSection = () => {
+  return (
+    <div className="bg-white">
+      <div className="py-24 px-6">
+        <div className="max-w-5xl mx-auto text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-12"
+          >
+            {/* Texto centralizado */}
+            <p className="text-3xl md:text-5xl lg:text-6xl font-bold text-black leading-tight uppercase">
+              ON{" "}
+              <span 
+                style={{ 
+                  fontFamily: '"Rock Salt", cursive',
+                  color: '#FF0033',
+                  fontWeight: 900,
+                  textTransform: 'none'
+                }}
+              >
+                Instagram
+              </span>
+              , YOUR CONTENT DISAPPEARS IN 24 HOURS. ON{" "}
+              <span 
+                style={{ 
+                  fontFamily: '"Rock Salt", cursive',
+                  color: '#FF0033',
+                  fontWeight: 900,
+                  textTransform: 'none'
+                }}
+              >
+                YouTube
+              </span>
+              , IT CONTINUES TO SELL FOR MONTHS (OR YEARS).
+            </p>
+
+            {/* Imagem embaixo */}
+            <div className="flex justify-center">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <img 
+                  src={InstagramImg} 
+                  alt="Instagram to YouTube transition" 
+                  className="w-full max-w-4xl md:max-w-5xl lg:max-w-6xl mx-auto object-contain"
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+      
+      {/* Linha divisória */}
+      <div className="border-t border-gray-200"></div>
     </div>
   );
 };
@@ -405,6 +620,51 @@ const Services = () => {
 };
 
 const PricingSection = () => {
+  const handleCheckout = async (priceId: string) => {
+    try {
+      const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+      if (!stripe) {
+        alert("Stripe não configurado. Verifique as variáveis de ambiente.");
+        return;
+      }
+
+      console.log('Iniciando checkout com priceId:', priceId);
+      
+      const response = await fetch(`/api/create-checkout-session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          priceId: priceId,
+        }),
+      }).catch((fetchError) => {
+        console.error('Erro na requisição fetch:', fetchError);
+        throw new Error(`Erro de conexão: ${fetchError.message}. Verifique se o servidor está rodando.`);
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Erro ao criar sessão de checkout");
+      }
+
+      const session = await response.json();
+      
+      console.log('Resposta do servidor:', session);
+      
+      // Redirecionar para o checkout usando a URL da sessão
+      if (session.url) {
+        window.location.href = session.url;
+      } else {
+        console.error('URL não encontrada na resposta:', session);
+        throw new Error("URL de checkout não disponível. Resposta: " + JSON.stringify(session));
+      }
+    } catch (error: any) {
+      console.error("Erro no checkout:", error);
+      alert(error.message || "Erro ao processar pagamento. Por favor, tente novamente.");
+    }
+  };
+
   const plans = [
     {
       name: "PLAN 01",
@@ -415,14 +675,27 @@ const PricingSection = () => {
       investmentNote: "/ month",
       totalValue: "$9,500",
       cta: "DOMINATE THE CLICK",
+      priceId: "price_1T7IOgFjJxHsNvNGn01NsM8e",
       deliverables: [
-        { item: "12 High-Performance Thumbnails (4 videos/month — 3 strategic variations per video)" },
-        { item: "4 Full Long-Form Video Scripts (Structured for retention, clarity and audience progression)" },
-        { item: "Advanced Metadata Optimization (CTR-focused titles, structured descriptions, tag architecture)" },
-        { item: "Live A/B/C Testing (Real-time thumbnail & title swaps based on performance data)" },
-        { item: "Post-Publish Optimization – First 7 Days (CTR monitoring, title refinements, packaging adjustments)" },
+        { item: "Thumbnails & Packaging" },
+        { item: "12 High-Performance Thumbnails" },
+        { item: "4 videos per month with 3 strategic thumbnail variations per video, engineered to maximize CTR and stand out in the YouTube feed." },
+        { item: "Live A/B/C Testing" },
+        { item: "Real-time thumbnail and title swaps based on performance data to continuously improve click-through rate." },
+        { item: "Scriptwriting & Content Structure" },
+        { item: "4 Full Long-Form Video Scripts" },
+        { item: "Structured scripts optimized for viewer retention, clarity, and audience progression throughout the video." },
+        { item: "Channel Optimization" },
+        { item: "Advanced Metadata Optimization" },
+        { item: "CTR-focused titles, structured descriptions, and strategic tag architecture designed for discoverability and search positioning." },
+        { item: "Performance Intelligence" },
         { item: "Monthly Competitor Analysis" },
-        { item: "Performance Report (CTR, impressions, subscriber velocity)" }
+        { item: "Breakdown of competitor content strategy, packaging patterns, and performance opportunities within your niche." },
+        { item: "Performance Report" },
+        { item: "Monthly report covering CTR, impressions growth, and subscriber velocity." },
+        { item: "Post-Publish Optimization" },
+        { item: "Post-Publish Optimization — First 7 Days" },
+        { item: "Active monitoring of CTR and performance signals with title refinements and packaging adjustments during the critical launch window." }
       ],
       outcomes: [
         "Higher CTR",
@@ -435,61 +708,81 @@ const PricingSection = () => {
     {
       name: "PLAN 02",
       subtitle: "VHORO RETENTION ENGINE™",
-      system: "(The Watch-Time & Scale System)",
-      bestFor: "Creators and brands ready to scale consistently and expand reach.",
+      system: "The Watch-Time & Scale System",
+      bestFor: "Creators and brands ready to scale their channel with consistent publishing, stronger storytelling, and deeper audience retention.",
       price: "$3,490",
       investmentNote: "/ month",
       totalValue: "$24,000",
       cta: "SCALE MY REACH",
+      priceId: "price_1T7IOwFjJxHsNvNG6G2q2B8y",
       deliverables: [
-        { item: "24 High-Performance Thumbnails (8 videos/month — 3 optimized variations per video)" },
-        { item: "8 Advanced Long-Form Video Scripts (Story-driven, retention-focused, engineered for watch-time depth)" },
-        { item: "Everything in CLICK ARCHITECT™ Framework" },
-        { item: "Quarterly Content Strategy Roadmap (Positioning, topic architecture, authority planning)" },
-        { item: "Monthly Retention Audit (Drop-off curve analysis and structural improvements)" },
-        { item: "8 YouTube Shorts (Strategically produced to expand reach and feed discovery)" },
-        { item: "Ongoing Post-Publish Optimization (Title shifts, thumbnail refresh cycles, session optimization)" }
+        { item: "Thumbnails & Packaging" },
+        { item: "24 High-Performance Thumbnails" },
+        { item: "8 videos per month with 3 optimized thumbnail variations each, designed to maximize CTR and capture attention in competitive feeds." },
+        { item: "Scriptwriting & Content Architecture" },
+        { item: "8 Advanced Long-Form Video Scripts" },
+        { item: "Story-driven scripts engineered for viewer retention, watch-time depth, and binge potential." },
+        { item: "CLICK ARCHITECT™ Framework" },
+        { item: "Our proprietary system for structuring videos to maximize clicks, retention, and algorithm performance." },
+        { item: "Video Editing" },
+        { item: "8 Long-Form Video Edits" },
+        { item: "Clean, high-retention editing optimized for pacing, clarity, and viewer engagement." },
+        { item: "Simple editing structure focused on performance without complex motion graphics." },
+        { item: "Growth Strategy" },
+        { item: "Quarterly Content Strategy Roadmap" },
+        { item: "Strategic planning covering positioning, topic architecture, and authority growth." },
+        { item: "Monthly Retention Audit" },
+        { item: "Detailed drop-off curve analysis with structural improvements to increase viewer retention." },
+        { item: "Discovery Expansion" },
+        { item: "8 YouTube Shorts" },
+        { item: "Strategically produced to expand reach, discovery, and feed the long-form content ecosystem." },
+        { item: "Post-Publish Optimization" },
+        { item: "Ongoing Post-Publish Optimization" },
+        { item: "Title adjustments, thumbnail refresh cycles, and session optimization after publishing to continuously improve video performance." }
       ],
       outcomes: [
         "Increased Average View Duration",
         "Higher session watch time",
         "Shorts-driven discovery growth",
         "Stronger authority positioning",
-        "Continuous performance refinement"
+        "A scalable publishing system for consistent growth"
       ],
       popular: true
     },
     {
       name: "PLAN 03",
       subtitle: "VHORO ELITE PARTNERSHIP™",
-      system: "(Custom Growth Architecture)",
-      bestFor: "High-level creators, personal brands and companies that require a fully customized YouTube growth operation.",
+      system: "Custom YouTube Growth Architecture",
+      bestFor: "High-level creators, personal brands, and companies that require a fully customized YouTube growth operation built around their exact objectives.",
       price: "",
-      investmentNote: "Custom pricing — starting at $8,000+ / month",
+      investmentNote: "Custom engagement — Pricing is determined after evaluating your channel stage, production volume, and growth goals.",
       totalValue: "",
       cta: "CONTACT US",
       deliverables: [
-        { item: "Everything is built based on your specific growth objectives." },
-        { item: "Unlimited thumbnail testing cycles" },
-        { item: "Advanced packaging experimentation" },
-        { item: "Full-service editing (scalable volume)" },
-        { item: "Scriptwriting at scale" },
-        { item: "Content strategy for authority domination" },
-        { item: "Multi-format expansion (Shorts, clips, ecosystem distribution)" },
-        { item: "Monetization architecture & funnel integration" },
-        { item: "Launch campaign support" },
-        { item: "Dedicated growth strategist" },
-        { item: "Priority execution team" },
-        { item: "Ongoing post-publish optimization (no time limit)" },
-        { item: "Real-time performance monitoring" },
-        { item: "Advanced KPI dashboard" }
+        { item: "Every engagement is engineered around the specific needs of your channel and growth strategy." },
+        { item: "This partnership can include any combination of the following services:" },
+        { item: "• Custom thumbnail production and testing cycles" },
+        { item: "• Advanced packaging strategy (titles + CTR experimentation)" },
+        { item: "• Long-form video editing" },
+        { item: "• Short-form editing and content repurposing" },
+        { item: "• Scriptwriting and storytelling development" },
+        { item: "• Content ideation and research" },
+        { item: "• Channel positioning and growth strategy" },
+        { item: "• Upload optimization (SEO, metadata, publishing systems)" },
+        { item: "• Post-publish optimization and performance monitoring" },
+        { item: "• Content ecosystem expansion (Shorts, clips, multi-platform distribution)" },
+        { item: "• Monetization architecture and funnel integration" },
+        { item: "• Launch and campaign support for major videos" },
+        { item: "• Dedicated growth strategist overseeing the channel" },
+        { item: "• Priority production team for faster execution" },
+        { item: "All services are modular and scalable, meaning we design the production capacity based on what your channel actually needs." }
       ],
       outcomes: [
-        "Category leadership",
-        "Predictable content velocity",
-        "Scalable monetization engine",
-        "YouTube as a core revenue channel",
-        "Strategic growth moat"
+        "Category leadership in your niche",
+        "A scalable and predictable content system",
+        "High-performance packaging and retention optimization",
+        "YouTube operating as a primary growth and revenue channel",
+        "A long-term strategic moat built around your content ecosystem"
       ],
       popular: false
     }
@@ -551,14 +844,37 @@ const PricingSection = () => {
                     What We Engineer
                   </div>
                   <div className="space-y-3">
-                    {plan.deliverables.map((d, j) => (
-                      <div key={j} className="flex items-start gap-2">
-                        <div className="mt-1 w-3 h-3 rounded-full bg-brand/10 flex items-center justify-center flex-shrink-0">
-                          <div className="w-1.5 h-1.5 rounded-full bg-brand" />
+                    {plan.deliverables.map((d, j) => {
+                      // Categorias são títulos de seção (sem bullet, em negrito)
+                      const isCategory = !d.item.startsWith('•') && !d.item.startsWith('(') && 
+                                        (d.item === "Thumbnails & Packaging" || 
+                                         d.item === "Scriptwriting & Content Architecture" || 
+                                         d.item === "Video Editing" || 
+                                         d.item === "Growth Strategy" || 
+                                         d.item === "Discovery Expansion" || 
+                                         d.item === "Post-Publish Optimization" ||
+                                         d.item === "CLICK ARCHITECT™ Framework" ||
+                                         d.item === "Scriptwriting & Content Structure" ||
+                                         d.item === "Channel Optimization" ||
+                                         d.item === "Performance Intelligence");
+                      
+                      if (isCategory) {
+                        return (
+                          <div key={j} className="pt-4 first:pt-0">
+                            <span className="text-xs font-bold text-black uppercase tracking-wide">{d.item}</span>
+                          </div>
+                        );
+                      }
+                      
+                      return (
+                        <div key={j} className="flex items-start gap-2">
+                          <div className="mt-1 w-3 h-3 rounded-full bg-brand/10 flex items-center justify-center flex-shrink-0">
+                            <div className="w-1.5 h-1.5 rounded-full bg-brand" />
+                          </div>
+                          <span className="text-xs font-semibold text-gray-700 leading-tight">{d.item}</span>
                         </div>
-                        <span className="text-xs font-semibold text-gray-700 leading-tight">{d.item}</span>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -584,7 +900,10 @@ const PricingSection = () => {
                     <span className="text-lg font-bold tracking-tight line-through text-gray-300">{plan.totalValue}</span>
                   </div>
                 )}
-                <button className={`w-full py-4 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${plan.popular ? 'bg-brand text-white hover:opacity-90' : 'bg-black text-white hover:bg-neutral-800'}`}>
+                <button 
+                  onClick={() => plan.priceId ? handleCheckout(plan.priceId) : window.location.href = '/connect'}
+                  className={`w-full py-4 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer ${plan.popular ? 'bg-brand text-white hover:opacity-90 hover:scale-105' : 'bg-black text-white hover:bg-neutral-800 hover:scale-105'}`}
+                >
                   {plan.cta}
                 </button>
               </div>
@@ -648,7 +967,7 @@ const Blog = () => {
 
         <div className="flex flex-col items-center">
           <div className="w-full h-px bg-white/20 mb-12"></div>
-          <Link to="/insights" className="bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-colors">
+          <Link to="/insights" className="bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 hover:scale-105 transition-all cursor-pointer">
             Our Blog
           </Link>
         </div>
@@ -787,114 +1106,6 @@ const FAQSection = () => {
 };
 
 const Footer = () => {
-  const [viewsCount, setViewsCount] = useState(0);
-  const [fontSize, setFontSize] = useState(100);
-  const [hasStarted, setHasStarted] = useState(false);
-  const numberRef = React.useRef<HTMLDivElement>(null);
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const counterSectionRef = React.useRef<HTMLDivElement>(null);
-  const targetViews = 1000000000; // 1 bilhão
-
-  useEffect(() => {
-    if (!hasStarted || !counterSectionRef.current) return;
-
-    const duration = 5000; // 5 segundos
-    const steps = 100;
-    const increment = targetViews / steps;
-    let current = 0;
-
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= targetViews) {
-        setViewsCount(targetViews);
-        clearInterval(timer);
-      } else {
-        setViewsCount(Math.floor(current));
-      }
-    }, duration / steps);
-
-    return () => clearInterval(timer);
-  }, [hasStarted]);
-
-  useEffect(() => {
-    if (!counterSectionRef.current) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasStarted) {
-            setHasStarted(true);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(counterSectionRef.current);
-
-    return () => {
-      if (counterSectionRef.current) {
-        observer.unobserve(counterSectionRef.current);
-      }
-    };
-  }, [hasStarted]);
-
-  useEffect(() => {
-    const updateFontSize = () => {
-      if (numberRef.current && containerRef.current) {
-        // Get the actual available width (accounting for any padding)
-        const containerWidth = containerRef.current.clientWidth || containerRef.current.offsetWidth;
-        
-        // Reset to a base size to measure natural width
-        numberRef.current.style.fontSize = '100px';
-        numberRef.current.style.letterSpacing = '0px';
-        numberRef.current.style.width = 'auto';
-        numberRef.current.style.maxWidth = 'none';
-        
-        // Force a reflow to get accurate measurements
-        void numberRef.current.offsetHeight;
-        
-        const textWidth = numberRef.current.scrollWidth;
-        
-        // Calculate the font size needed to fill the container width
-        if (textWidth > 0 && containerWidth > 0) {
-          const scale = containerWidth / textWidth;
-          const calculatedSize = 100 * scale;
-          
-          // Apply the calculated font size with reasonable limits
-          // Lower minimum for mobile, higher max for desktop
-          const minSize = window.innerWidth < 768 ? 20 : 30;
-          const maxSize = window.innerWidth < 768 ? 200 : 800;
-          setFontSize(Math.min(Math.max(calculatedSize, minSize), maxSize));
-        }
-      }
-    };
-
-    // Multiple attempts to ensure it works, especially on mobile
-    const timeout1 = setTimeout(updateFontSize, 50);
-    const timeout2 = setTimeout(updateFontSize, 200);
-    const timeout3 = setTimeout(updateFontSize, 500);
-    const timeout4 = setTimeout(updateFontSize, 1000);
-    
-    window.addEventListener('resize', updateFontSize);
-    window.addEventListener('orientationchange', () => {
-      setTimeout(updateFontSize, 300);
-    });
-    
-    return () => {
-      clearTimeout(timeout1);
-      clearTimeout(timeout2);
-      clearTimeout(timeout3);
-      clearTimeout(timeout4);
-      window.removeEventListener('resize', updateFontSize);
-      window.removeEventListener('orientationchange', updateFontSize);
-    };
-  }, [viewsCount]);
-
-  const formatNumber = (num: number) => {
-    return num.toLocaleString('en-US');
-  };
-
   return (
     <footer className="bg-neutral-950 text-white">
       <div className="bg-brand py-4 flex justify-center space-x-8">
@@ -903,49 +1114,6 @@ const Footer = () => {
         <Facebook className="w-5 h-5 cursor-pointer hover:scale-110 transition-transform" />
         <Youtube className="w-5 h-5 cursor-pointer hover:scale-110 transition-transform" />
         <Linkedin className="w-5 h-5 cursor-pointer hover:scale-110 transition-transform" />
-      </div>
-      
-      {/* Views Counter Section */}
-      <div 
-        className="w-full py-16 border-b border-white/10 px-0 overflow-visible"
-      >
-        <motion.div
-          ref={counterSectionRef}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="w-full overflow-visible"
-        >
-          <p className="text-sm md:text-base font-bold uppercase tracking-widest text-gray-400 mb-4 text-center px-6">
-            Views Generated
-          </p>
-          <div className="w-full overflow-visible" ref={containerRef} style={{ minWidth: 0 }}>
-            <motion.div
-              ref={numberRef}
-              key={viewsCount}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="whitespace-nowrap text-center"
-              style={{
-                fontSize: `${fontSize}px`,
-                fontFamily: 'monospace',
-                letterSpacing: '0px',
-                lineHeight: 1,
-                fontWeight: 900,
-                display: 'block',
-                width: '100%',
-                overflow: 'visible',
-                textAlign: 'center',
-                wordBreak: 'keep-all',
-                overflowWrap: 'normal'
-              }}
-            >
-              {formatNumber(viewsCount)}
-            </motion.div>
-          </div>
-        </motion.div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-24">
@@ -989,7 +1157,7 @@ const FounderSection = () => {
   return (
     <section className="py-24 px-6 bg-neutral-950 overflow-hidden relative">
       {/* Background image for the section */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
+      <div className="absolute inset-0 opacity-100 pointer-events-none">
         <img
           src={FounderBg}
           alt="Founder background"
@@ -1030,47 +1198,115 @@ const FounderSection = () => {
           className="relative order-1 md:order-2"
         >
           <div className="relative bg-neutral-900/50 border border-white/5 rounded-3xl p-4 md:p-8 shadow-2xl">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center">
-                  <Youtube className="w-5 h-5 text-white fill-current" />
-                </div>
-                <span className="text-xl font-bold text-white tracking-tighter">YouTube</span>
-              </div>
-              <Menu className="w-6 h-6 text-white" />
-            </div>
             <div className="relative aspect-square rounded-2xl overflow-hidden">
               <img 
                 src={FounderPhoto} 
-                alt="Marcus Vayner" 
+                alt="João Camargo" 
                 className="w-full h-full object-cover"
               />
-              
-              {/* Floating Interaction Bar */}
-              <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm rounded-xl p-3 flex flex-col items-center space-y-4 shadow-xl">
-                <div className="flex flex-col items-center space-y-1">
-                  <div className="text-brand"><Zap className="w-4 h-4 fill-current" /></div>
-                  <span className="text-[10px] font-bold text-black">1.7 K</span>
-                </div>
-                <div className="flex flex-col items-center space-y-1">
-                  <div className="text-gray-400"><Zap className="w-4 h-4 rotate-180" /></div>
-                  <span className="text-[10px] font-bold text-black">0</span>
-                </div>
-                <div className="flex flex-col items-center space-y-1">
-                  <div className="text-gray-400"><ArrowRight className="w-4 h-4" /></div>
-                  <span className="text-[8px] font-bold text-black uppercase">SHARE</span>
-                </div>
-                <div className="flex flex-col items-center space-y-1">
-                  <div className="text-gray-400"><Menu className="w-4 h-4" /></div>
-                  <span className="text-[8px] font-bold text-black uppercase">SAVE</span>
-                </div>
-                <div className="text-gray-300">...</div>
-              </div>
             </div>
           </div>
           
           {/* Background Glow */}
           <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand/20 blur-[120px] rounded-full" />
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const ViewsCounter = () => {
+  const [count, setCount] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const targetValue = 1000000000; // 1 bilhão
+  const duration = 5000; // 5 segundos
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasStarted) {
+            setHasStarted(true);
+            startCounter();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, [hasStarted]);
+
+  const startCounter = () => {
+    const startTime = Date.now();
+    const startValue = 0;
+
+    const updateCounter = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentValue = Math.floor(startValue + (targetValue - startValue) * easeOutQuart);
+      
+      setCount(currentValue);
+
+      if (progress < 1) {
+        requestAnimationFrame(updateCounter);
+      } else {
+        setCount(targetValue);
+      }
+    };
+
+    requestAnimationFrame(updateCounter);
+  };
+
+  const formatNumber = (num: number) => {
+    return num.toLocaleString('en-US');
+  };
+
+  return (
+    <section 
+      ref={sectionRef}
+      className="bg-black py-16 md:py-24 px-6 overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="space-y-4 md:space-y-6"
+        >
+          <p className="text-white/60 text-sm md:text-base font-semibold uppercase tracking-widest">
+            Views Generated
+          </p>
+          <div className="w-full">
+            <motion.div
+              key={count}
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.2 }}
+              className="text-brand font-bold leading-none"
+              style={{
+                fontSize: 'clamp(3rem, 15vw, 12rem)',
+                wordBreak: 'break-word',
+                overflowWrap: 'break-word',
+                lineHeight: '1',
+              }}
+            >
+              {formatNumber(count)}
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
@@ -1137,11 +1373,13 @@ const Home = () => {
       <WorkSection />
       <ClientsSection />
       <Logos />
+      <InstagramSection />
       <Services />
       <PricingSection />
       <Blog />
       <FAQSection />
       <FounderSection />
+      <ViewsCounter />
     </>
   );
 };
@@ -1154,12 +1392,15 @@ const ScrollToTop = () => {
   return null;
 };
 
-export default function App() {
+const AppContent = () => {
+  const location = useLocation();
+  const isSuccessPage = location.pathname === '/success';
+
   return (
-    <Router>
+    <>
       <ScrollToTop />
       <div className="min-h-screen bg-white selection:bg-brand/20 flex flex-col">
-        <Navbar />
+        {!isSuccessPage && <Navbar />}
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -1173,11 +1414,20 @@ export default function App() {
             <Route path="/legal/copyright-policy" element={<CopyrightPolicy />} />
             <Route path="/legal/terms" element={<Terms />} />
             <Route path="/legal/cookies-policy" element={<CookiesPolicy />} />
+            <Route path="/success" element={<Success />} />
           </Routes>
         </main>
-        <Footer />
-        <CookieBanner />
+        {!isSuccessPage && <Footer />}
+        {!isSuccessPage && <CookieBanner />}
       </div>
+    </>
+  );
+};
+
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

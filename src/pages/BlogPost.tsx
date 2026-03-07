@@ -1307,7 +1307,7 @@ export default function BlogPost() {
                 <Clock className="w-3 h-3" />
                 {article.readTime}
               </div>
-              <button className="p-2 hover:bg-neutral-50 rounded-full transition-colors">
+              <button className="p-2 hover:bg-neutral-50 hover:scale-110 rounded-full transition-all cursor-pointer">
                 <Share2 className="w-4 h-4" />
               </button>
             </div>

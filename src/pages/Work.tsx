@@ -52,9 +52,9 @@ export default function Work() {
           </p>
         </div>
         <div className="flex gap-4 text-[10px] font-bold uppercase tracking-widest">
-          <button className="px-6 py-3 bg-black text-white rounded-full">All Work</button>
-          <button className="px-6 py-3 bg-neutral-100 text-gray-400 rounded-full hover:bg-neutral-200 transition-colors">E-commerce</button>
-          <button className="px-6 py-3 bg-neutral-100 text-gray-400 rounded-full hover:bg-neutral-200 transition-colors">SaaS</button>
+          <button className="px-6 py-3 bg-black text-white rounded-full hover:opacity-80 hover:scale-105 transition-all cursor-pointer">All Work</button>
+          <button className="px-6 py-3 bg-neutral-100 text-gray-400 rounded-full hover:bg-neutral-200 hover:scale-105 transition-all cursor-pointer">E-commerce</button>
+          <button className="px-6 py-3 bg-neutral-100 text-gray-400 rounded-full hover:bg-neutral-200 hover:scale-105 transition-all cursor-pointer">SaaS</button>
         </div>
       </div>
 
