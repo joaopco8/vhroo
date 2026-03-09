@@ -527,6 +527,7 @@ const CaseStudiesSection = () => {
       number: "01",
       channel: "Iman Gadzhi",
       niche: "Entrepreneurship · 4.8M subs",
+      image: ImanGadzhiImg,
       metrics: [
         {
           label: "CTR: 3.2% →",
@@ -544,6 +545,7 @@ const CaseStudiesSection = () => {
       number: "02",
       channel: "Thaisa Leal",
       niche: "Personal Development · 890k subs",
+      image: ThaisaLealImg,
       metrics: [
         {
           label: "Avg retention: 31% →",
@@ -561,6 +563,7 @@ const CaseStudiesSection = () => {
       number: "03",
       channel: "Ryan Trahan",
       niche: "Lifestyle · 12M subs",
+      image: RyanTrahanImg,
       metrics: [
         {
           label: "CTR: 4.1% →",
@@ -607,13 +610,22 @@ const CaseStudiesSection = () => {
                   {caseItem.number}
                 </span>
 
-                {/* Creator Info */}
-                <div>
-                  <div className="case-channel text-lg md:text-xl font-semibold text-white mb-1">
-                    {caseItem.channel}
+                {/* Creator Info + Photo */}
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden bg-neutral-900 flex-shrink-0">
+                    <img
+                      src={caseItem.image}
+                      alt={caseItem.channel}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  <div className="text-[11px] text-gray-400 mt-1 tracking-wide uppercase font-medium">
-                    {caseItem.niche}
+                  <div>
+                    <div className="case-channel text-lg md:text-xl font-semibold text-white mb-1">
+                      {caseItem.channel}
+                    </div>
+                    <div className="text-[11px] text-gray-400 mt-1 tracking-wide uppercase font-medium">
+                      {caseItem.niche}
+                    </div>
                   </div>
                 </div>
 
