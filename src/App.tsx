@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion } from "motion/react";
+import { motion, useInView, useAnimation } from "motion/react";
 import { Menu, X, ArrowRight, ArrowLeft, Instagram, Twitter, Facebook, Youtube, Linkedin, Zap } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
@@ -64,6 +64,54 @@ const CoverAnalytics = new URL("./imgs/capas artigos/How To Read Your YouTube An
 
 // Images – Instagram
 import InstagramImg from "./imgs/instagram.png";
+
+// Componente wrapper para animações de scroll
+const ScrollReveal = ({ children, delay = 0, direction = "up", className = "", ...props }: { children: React.ReactNode; delay?: number; direction?: "up" | "down" | "left" | "right" | "fade"; className?: string; [key: string]: any }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, margin: "-100px" });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible");
+    } else {
+      controls.start("hidden");
+    }
+  }, [isInView, controls]);
+
+  const variants = {
+    hidden: {
+      opacity: 0,
+      y: direction === "up" ? 60 : direction === "down" ? -60 : 0,
+      x: direction === "left" ? 60 : direction === "right" ? -60 : 0,
+      scale: direction === "fade" ? 0.95 : 1,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      x: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        delay: delay,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={variants}
+      className={className}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -257,24 +305,26 @@ const WorkSection = () => {
 
   return (
     <section className="py-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start mb-16">
-        <div>
-          <p className="text-lg font-semibold leading-tight mb-8 max-w-md">
-            We are architects of attention, transforming social relevance into your channel's most valuable growth asset.
-          </p>
-          <Link 
-            to="/#pricing"
-            className="inline-block bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 hover:scale-105 transition-all cursor-pointer"
-          >
-            CHOOSE YOUR PLAN
-          </Link>
+      <ScrollReveal direction="up" delay={0.1}>
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start mb-16">
+          <div>
+            <p className="text-lg font-semibold leading-tight mb-8 max-w-md">
+              We help creators turn YouTube into their main growth engine through high-CTR packaging, retention-optimized editing, and data-driven strategy.
+            </p>
+            <Link 
+              to="/#pricing"
+              className="inline-block bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 hover:scale-105 transition-all cursor-pointer"
+            >
+              CHOOSE YOUR PLAN
+            </Link>
+          </div>
+          <div className="text-right">
+            <h2 className="text-5xl md:text-7xl font-bold tracking-tight uppercase leading-[0.8]">
+              A glimpse at<br />our work
+            </h2>
+          </div>
         </div>
-        <div className="text-right">
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tight uppercase leading-[0.8]">
-            A glimpse at<br />our work
-          </h2>
-        </div>
-      </div>
+      </ScrollReveal>
 
       <div className="space-y-4">
         {/* Row 1 - Forward */}
@@ -387,14 +437,16 @@ const ClientsSection = () => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="max-w-7xl mx-auto px-6 mb-16">
-        <h2 className="text-2xl md:text-3xl font-medium text-neutral-800 leading-tight max-w-4xl mb-8">
-          We operate strategically for companies, entrepreneurs, and digital creators who want to maximize their online presence, scale their sales, and dominate their market.
-        </h2>
-        <p className="text-brand text-xl md:text-2xl font-bold">
-          These are just a few of the names we've partnered with:
-        </p>
-      </div>
+      <ScrollReveal direction="up" delay={0.1}>
+        <div className="max-w-7xl mx-auto px-6 mb-16">
+          <h2 className="text-2xl md:text-3xl font-medium text-neutral-800 leading-tight max-w-4xl mb-8">
+            We operate strategically for companies, entrepreneurs, and digital creators who want to maximize their online presence, scale their sales, and dominate their market.
+          </h2>
+          <p className="text-brand text-xl md:text-2xl font-bold">
+            These are just a few of the names we've partnered with:
+          </p>
+        </div>
+      </ScrollReveal>
 
       <motion.div 
         style={{
@@ -447,49 +499,162 @@ const ClientsSection = () => {
 
 const Logos = () => {
   return (
-    <section className="bg-black py-32 md:py-40 px-6">
+    <section className="bg-brand py-32 md:py-40 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
-          {/* Imagem */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative"
-          >
-            <div className="aspect-[860/507] overflow-hidden rounded-lg">
-              <img 
-                src={MrBeastScaled} 
-                alt="MrBeast" 
-                className="w-full h-full object-cover"
-                loading="eager"
-              />
+        <div className="text-center">
+          <ScrollReveal direction="up" delay={0.1}>
+            <div className="space-y-6">
+              <h2 className="text-4xl md:text-[4.2rem] font-bold text-white leading-[1.1] tracking-normal uppercase">
+                THEY UNDERSTAND THE ALGORITHM BETTER THAN ANYONE I'VE WORKED WITH.
+              </h2>
+              
+              <p className="text-sm md:text-base text-white/60 uppercase tracking-wide">
+                IMAN GADZHI — Entrepreneur, 5M subscribers · VHORO Client Since 2024
+              </p>
             </div>
-          </motion.div>
-
-          {/* Texto */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-6"
-          >
-            <div className="space-y-2">
-              <p className="text-white/60 font-bold uppercase tracking-widest text-xs">MrBeast</p>
-              <p className="text-brand text-[10px] font-bold uppercase tracking-widest">Global YouTube Authority</p>
-            </div>
-            
-            <blockquote className="text-3xl md:text-5xl lg:text-6xl font-medium text-white tracking-tight leading-tight italic">
-              “They understand the algorithm better than anyone I've worked with.”
-            </blockquote>
-            
-            <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-semibold pt-4">
-              Source: Private performance review from VHORO Media client portfolio
-            </p>
-          </motion.div>
+          </ScrollReveal>
         </div>
+      </div>
+    </section>
+  );
+};
+
+const CaseStudiesSection = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const cases = [
+    {
+      number: "01",
+      channel: "Iman Gadzhi",
+      niche: "Entrepreneurship · 4.8M subs",
+      metrics: [
+        {
+          label: "CTR: 3.2% →",
+          value: "9.1%",
+          desc: "+184% in 60 days"
+        },
+        {
+          label: "Views/video: 180k →",
+          value: "620k",
+          desc: "Thumbnail + hook overhaul"
+        }
+      ]
+    },
+    {
+      number: "02",
+      channel: "Thaisa Leal",
+      niche: "Personal Development · 890k subs",
+      metrics: [
+        {
+          label: "Avg retention: 31% →",
+          value: "61%",
+          desc: "+97% watch time"
+        },
+        {
+          label: "Monthly views: 900k →",
+          value: "3.4M",
+          desc: "Script + niche repositioning"
+        }
+      ]
+    },
+    {
+      number: "03",
+      channel: "Ryan Trahan",
+      niche: "Lifestyle · 12M subs",
+      metrics: [
+        {
+          label: "CTR: 4.1% →",
+          value: "11.3%",
+          desc: "+175% click velocity"
+        },
+        {
+          label: "Subs/month: 80k →",
+          value: "390k",
+          desc: "Full packaging strategy rebuild"
+        }
+      ]
+    }
+  ];
+
+  return (
+    <section id="cases" className="py-24 md:py-32 px-6 md:px-12" style={{ background: '#080808' }}>
+      <div className="max-w-7xl mx-auto">
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="mb-8">
+            <span className="text-[11px] font-semibold tracking-[3px] uppercase text-brand block mb-5">
+              Case Studies
+            </span>
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight uppercase leading-[0.95]">
+              CHANNELS WE'VE<br />
+              TRANSFORMED.
+            </h2>
+          </div>
+        </ScrollReveal>
+
+        <div className="mt-16 md:mt-20 border border-white/10">
+          {cases.map((caseItem, index) => (
+            <ScrollReveal key={index} direction="up" delay={0.2 + index * 0.1}>
+              <div
+                className="case-item grid grid-cols-1 md:grid-cols-[80px_1fr_1fr_1fr] items-center gap-8 md:gap-12 p-8 md:p-12 border-b border-white/10 last:border-b-0 transition-colors"
+                style={{
+                  backgroundColor: hoveredIndex === index ? 'rgba(255, 0, 51, 0.04)' : 'transparent'
+                }}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                {/* Case Number */}
+                <span className="case-num text-xs md:text-sm font-semibold text-brand tracking-[2px] uppercase">
+                  {caseItem.number}
+                </span>
+
+                {/* Creator Info */}
+                <div>
+                  <div className="case-channel text-lg md:text-xl font-semibold text-white mb-1">
+                    {caseItem.channel}
+                  </div>
+                  <div className="text-[11px] text-gray-400 mt-1 tracking-wide uppercase font-medium">
+                    {caseItem.niche}
+                  </div>
+                </div>
+
+                {/* Metric 1 */}
+                <div>
+                  <div className="case-before text-xs md:text-sm text-gray-400 font-medium mb-2">
+                    {caseItem.metrics[0].label}
+                  </div>
+                  <div className="case-after text-3xl md:text-4xl font-bold text-brand leading-none mb-2">
+                    {caseItem.metrics[0].value}
+                  </div>
+                  <div className="case-desc text-[11px] text-gray-400 uppercase tracking-wide">
+                    {caseItem.metrics[0].desc}
+                  </div>
+                </div>
+
+                {/* Metric 2 */}
+                <div>
+                  <div className="case-before text-xs md:text-sm text-gray-400 font-medium mb-2">
+                    {caseItem.metrics[1].label}
+                  </div>
+                  <div className="case-after text-3xl md:text-4xl font-bold text-brand leading-none mb-2">
+                    {caseItem.metrics[1].value}
+                  </div>
+                  <div className="case-desc text-[11px] text-gray-400 uppercase tracking-wide">
+                    {caseItem.metrics[1].desc}
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+
+        {/* Anonymization Footnote */}
+        <ScrollReveal direction="up" delay={0.5}>
+          <div className="mt-8">
+            <p className="text-[11px] text-gray-400 tracking-wide">
+              * Data shared with creator permission. Full analytics available on call.
+            </p>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -791,24 +956,22 @@ const PricingSection = () => {
   return (
     <section id="pricing" className="py-24 px-6 bg-neutral-50">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-7xl font-bold tracking-tight uppercase leading-[0.9] mb-6">
-            Pick Your<br />
-            <span className="text-brand">Growth Path.</span>
-          </h2>
-          <p className="text-gray-500 font-semibold tracking-widest uppercase text-xs">CHOOSE THE PERFORMANCE PLAN THAT SCALES YOUR REVENUE.</p>
-        </div>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-7xl font-bold tracking-tight uppercase leading-[0.9] mb-6">
+              Pick Your<br />
+              <span className="text-brand">Growth Path.</span>
+            </h2>
+            <p className="text-gray-500 font-semibold tracking-widest uppercase text-xs">CHOOSE THE PERFORMANCE PLAN THAT SCALES YOUR REVENUE.</p>
+          </div>
+        </ScrollReveal>
 
         <div className="grid lg:grid-cols-3 gap-8 mb-24">
           {plans.map((plan, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`relative flex flex-col bg-white border ${plan.popular ? 'border-brand shadow-2xl scale-105 z-10' : 'border-black/5 shadow-xl'} p-8 rounded-2xl`}
-            >
+            <ScrollReveal key={i} direction="up" delay={0.2 + i * 0.15}>
+              <div 
+                className={`relative flex flex-col bg-white border ${plan.popular ? 'border-brand shadow-2xl scale-105 z-10' : 'border-black/5 shadow-xl'} p-8 rounded-2xl`}
+              >
               {plan.popular && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
                   Most Popular
@@ -877,29 +1040,9 @@ const PricingSection = () => {
                     })}
                   </div>
                 </div>
-
-                <div className="space-y-4">
-                  <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 border-b border-black/5 pb-2">
-                    Strategic Outcome
-                  </div>
-                  <div className="space-y-2">
-                    {plan.outcomes.map((outcome, j) => (
-                      <div key={j} className="flex items-center gap-2">
-                        <span className="text-brand text-xs">✔</span>
-                        <span className="text-xs font-bold text-gray-800">{outcome}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </div>
 
               <div className="pt-6 border-t border-black/5 mt-auto">
-                {plan.totalValue && (
-                  <div className="flex justify-between items-center mb-6">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">TOTAL STRATEGIC VALUE</span>
-                    <span className="text-lg font-bold tracking-tight line-through text-gray-300">{plan.totalValue}</span>
-                  </div>
-                )}
                 <button 
                   onClick={() => plan.priceId ? handleCheckout(plan.priceId) : window.location.href = '/connect'}
                   className={`w-full py-4 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer ${plan.popular ? 'bg-brand text-white hover:opacity-90 hover:scale-105' : 'bg-black text-white hover:bg-neutral-800 hover:scale-105'}`}
@@ -907,9 +1050,45 @@ const PricingSection = () => {
                   {plan.cta}
                 </button>
               </div>
-            </motion.div>
+            </div>
+          </ScrollReveal>
           ))}
         </div>
+      </div>
+    </section>
+  );
+};
+
+const PerformanceGuaranteeSection = () => {
+  return (
+    <section className="py-24 md:py-32 px-6 bg-brand">
+      <div className="max-w-7xl mx-auto">
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="text-left max-w-4xl">
+            {/* Number 60 DAY with Rock Salt font */}
+            <div className="mb-6">
+              <span 
+                className="text-7xl md:text-9xl font-black text-white leading-none block"
+                style={{ 
+                  fontFamily: '"Rock Salt", cursive',
+                  fontWeight: 900
+                }}
+              >
+                60 DAY
+              </span>
+            </div>
+            
+            {/* Title */}
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight uppercase leading-tight mb-8">
+              Performance Guarantee
+            </h2>
+            
+            {/* Description */}
+            <p className="text-lg md:text-xl text-white/90 leading-relaxed max-w-3xl">
+              If we don't measurably improve your CTR within the first 60 days, you don't pay for month two. We're not interested in retainers built on hope — we're interested in results you can see in your YouTube Studio dashboard.
+            </p>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -940,37 +1119,42 @@ const Blog = () => {
   return (
     <section className="bg-neutral-950 py-24 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-16">
-          <div className="h-px bg-white/20 flex-grow mr-8"></div>
-          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight uppercase">Read the latest</h2>
-        </div>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="flex items-center justify-between mb-16">
+            <div className="h-px bg-white/20 flex-grow mr-8"></div>
+            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight uppercase">Read the latest</h2>
+          </div>
+        </ScrollReveal>
 
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           {posts.map((post, i) => (
-            <motion.div 
-              key={i}
-              whileHover={{ y: -10 }}
-              className="bg-white p-6 group cursor-pointer"
-            >
-              <Link to={`/insights/${post.slug}`}>
-                <div className="aspect-video overflow-hidden mb-6">
-                  <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
-                </div>
-                <span className="text-[10px] font-semibold text-gray-400 tracking-widest uppercase">{post.date}</span>
-                <h3 className="text-xl font-bold tracking-tight uppercase mt-2 leading-tight group-hover:text-brand transition-colors">
-                  {post.title}
-                </h3>
-              </Link>
-            </motion.div>
+            <ScrollReveal key={i} direction="up" delay={0.2 + i * 0.1}>
+              <motion.div 
+                whileHover={{ y: -10 }}
+                className="bg-white p-6 group cursor-pointer"
+              >
+                <Link to={`/insights/${post.slug}`}>
+                  <div className="aspect-video overflow-hidden mb-6">
+                    <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
+                  </div>
+                  <span className="text-[10px] font-semibold text-gray-400 tracking-widest uppercase">{post.date}</span>
+                  <h3 className="text-xl font-bold tracking-tight uppercase mt-2 leading-tight group-hover:text-brand transition-colors">
+                    {post.title}
+                  </h3>
+                </Link>
+              </motion.div>
+            </ScrollReveal>
           ))}
         </div>
 
-        <div className="flex flex-col items-center">
-          <div className="w-full h-px bg-white/20 mb-12"></div>
-          <Link to="/insights" className="bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 hover:scale-105 transition-all cursor-pointer">
-            Our Blog
-          </Link>
-        </div>
+        <ScrollReveal direction="up" delay={0.3}>
+          <div className="flex flex-col items-center">
+            <div className="w-full h-px bg-white/20 mb-12"></div>
+            <Link to="/insights" className="bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 hover:scale-105 transition-all cursor-pointer">
+              Our Blog
+            </Link>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -1166,148 +1350,98 @@ const FounderSection = () => {
       </div>
 
       <div className="relative max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-        <motion.div 
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="space-y-8 order-2 md:order-1"
-        >
-          <div className="flex items-center space-x-3">
-            <div className="w-1 h-4 bg-brand" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">WHO IS BEHIND VHORO MEDIA</span>
-          </div>
-          <h2 className="text-5xl md:text-7xl font-bold text-white tracking-tight uppercase leading-[0.9]">
-            João Camargo
-          </h2>
-          <div className="space-y-6 text-lg text-gray-400 leading-relaxed font-medium">
-            <p>
-              Four years ago, I started designing thumbnails trying to understand why some videos explode while others disappear. That curiosity turned into an obsession with the YouTube algorithm and what truly makes a video succeed. After scaling more than 30 channels through testing, strategy and relentless optimization, I realized growth on YouTube is engineered, not guessed.
-            </p>
-            <p>
-              Today, through VhoroMedia, I apply everything I’ve learned about performance packaging, strategic scripting and post-publish optimization to help creators turn attention into authority and channels into scalable growth assets.
-            </p>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative order-1 md:order-2"
-        >
-          <div className="relative bg-neutral-900/50 border border-white/5 rounded-3xl p-4 md:p-8 shadow-2xl">
-            <div className="relative aspect-square rounded-2xl overflow-hidden">
-              <img 
-                src={FounderPhoto} 
-                alt="João Camargo" 
-                className="w-full h-full object-cover"
-              />
+        <ScrollReveal direction="left" delay={0.1}>
+          <div className="space-y-8 order-2 md:order-1">
+            <div className="flex items-center space-x-3">
+              <div className="w-1 h-4 bg-brand" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">WHO IS BEHIND VHORO MEDIA</span>
+            </div>
+            <h2 className="text-5xl md:text-7xl font-bold text-white tracking-tight uppercase leading-[0.9]">
+              João Camargo
+            </h2>
+            <div className="space-y-6 text-lg text-gray-400 leading-relaxed font-medium">
+              <p>
+                Four years ago, I started designing thumbnails trying to understand why some videos explode while others disappear. That curiosity turned into an obsession with the YouTube algorithm and what truly makes a video succeed. After scaling more than 30 channels through testing, strategy and relentless optimization, I realized growth on YouTube is engineered, not guessed.
+              </p>
+              <p>
+                Today, through VhoroMedia, I apply everything I've learned about performance packaging, strategic scripting and post-publish optimization to help creators turn attention into authority and channels into scalable growth assets.
+              </p>
             </div>
           </div>
-          
-          {/* Background Glow */}
-          <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand/20 blur-[120px] rounded-full" />
-        </motion.div>
+        </ScrollReveal>
+
+        <ScrollReveal direction="right" delay={0.2}>
+          <div className="relative order-1 md:order-2">
+            <div className="relative bg-neutral-900/50 border border-white/5 rounded-3xl p-4 md:p-8 shadow-2xl">
+              <div className="relative aspect-square rounded-2xl overflow-hidden">
+                <img 
+                  src={FounderPhoto} 
+                  alt="João Camargo" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            
+            {/* Background Glow */}
+            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand/20 blur-[120px] rounded-full" />
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
 };
 
 const ViewsCounter = () => {
-  const [count, setCount] = useState(0);
-  const [hasStarted, setHasStarted] = useState(false);
-  const targetValue = 1000000000; // 1 bilhão
-  const duration = 5000; // 5 segundos
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasStarted) {
-            setHasStarted(true);
-            startCounter();
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, [hasStarted]);
-
-  const startCounter = () => {
-    const startTime = Date.now();
-    const startValue = 0;
-
-    const updateCounter = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // Easing function for smooth animation
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      const currentValue = Math.floor(startValue + (targetValue - startValue) * easeOutQuart);
-      
-      setCount(currentValue);
-
-      if (progress < 1) {
-        requestAnimationFrame(updateCounter);
-      } else {
-        setCount(targetValue);
-      }
-    };
-
-    requestAnimationFrame(updateCounter);
-  };
-
-  const formatNumber = (num: number) => {
-    return num.toLocaleString('en-US');
-  };
-
   return (
-    <section 
-      ref={sectionRef}
-      className="bg-black py-16 md:py-24 px-6 overflow-hidden"
-    >
-      <div className="max-w-7xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="space-y-4 md:space-y-6"
-        >
-          <p className="text-white/60 text-sm md:text-base font-semibold uppercase tracking-widest">
-            Views Generated
-          </p>
-          <div className="w-full">
-            <motion.div
-              key={count}
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.2 }}
-              className="text-brand font-bold leading-none"
-              style={{
-                fontSize: 'clamp(3rem, 15vw, 12rem)',
-                wordBreak: 'break-word',
-                overflowWrap: 'break-word',
-                lineHeight: '1',
-              }}
-            >
-              {formatNumber(count)}
-            </motion.div>
+    <section className="bg-black py-24 md:py-32 px-6">
+      <div className="max-w-7xl mx-auto">
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="text-center space-y-8 md:space-y-10">
+            {/* Headline */}
+            <div>
+              <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.1] uppercase">
+                STOP UPLOADING<br />
+                INTO THE <span 
+                  className="text-brand"
+                  style={{ 
+                    fontFamily: '"Rock Salt", cursive',
+                    fontWeight: 900
+                  }}
+                >
+                  VOID.
+                </span>
+              </h2>
+            </div>
+
+            {/* Body Text */}
+            <div className="max-w-2xl mx-auto">
+              <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+                Your content deserves to be seen.
+                <br />
+                Request a professional channel diagnostic and uncover the exact bottlenecks limiting your growth.
+              </p>
+            </div>
+
+            {/* CTA Button */}
+            <div>
+              <a
+                href="https://tally.so/r/1AK2eg"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block bg-brand text-white px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:opacity-90 hover:scale-105 transition-all cursor-pointer"
+              >
+                Get Your Free Channel Diagnostic
+              </a>
+            </div>
+
+            {/* Disclaimers */}
+            <div className="pt-8 border-t border-white/10 max-w-3xl mx-auto">
+              <p className="text-sm text-white/60">
+                No contract required · 60-day performance guarantee · Results visible in YouTube Studio
+              </p>
+            </div>
           </div>
-        </motion.div>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -1374,8 +1508,10 @@ const Home = () => {
       <ClientsSection />
       <Logos />
       <InstagramSection />
+      <CaseStudiesSection />
       <Services />
       <PricingSection />
+      <PerformanceGuaranteeSection />
       <Blog />
       <FAQSection />
       <FounderSection />
