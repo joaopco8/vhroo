@@ -58,9 +58,10 @@ import RyanTrahanImg from "./imgs/clients/Ryan Trahan.jpg";
 
 // Images – Article covers (blog highlights)
 // Using dynamic imports to handle special characters in filenames
-const CoverCompetitor = new URL("./imgs/capas artigos/How To Steal Your Competition's Best Ideas (Legally).jpg", import.meta.url).href;
+const CoverCompetitor = new URL("./imgs/capas artigos/How To Steal Your Competition’s Best Ideas (Legally).jpg", import.meta.url).href;
 const CoverMonetization = new URL("./imgs/capas artigos/How To Turn Your Channel Into A Revenue Machine.jpg", import.meta.url).href;
 const CoverAnalytics = new URL("./imgs/capas artigos/How To Read Your YouTube Analytics Like A Pro.jpg", import.meta.url).href;
+const CoverScriptRetention = new URL("./imgs/capas artigos/How To Script Videos That People Actually Finishv.jpg", import.meta.url).href;
 
 // Images – Instagram
 import InstagramImg from "./imgs/instagram.png";
@@ -248,6 +249,27 @@ const Hero = () => {
   );
 };
 
+const HeroBenefitsStrip = () => {
+  return (
+    <section className="bg-brand px-6 md:px-12 py-6">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <p className="text-sm md:text-lg font-semibold text-white text-center md:text-left leading-snug">
+          NO CALLS REQUIRED
+          <span className="opacity-60 mx-3">·</span>
+          NO MEETINGS
+          <span className="opacity-60 mx-3">·</span>
+          WE ENGINEER THE GROWTH.
+        </p>
+        <div className="flex flex-col md:flex-row gap-3 md:gap-6 text-[11px] md:text-xs font-medium text-white/90 text-center md:text-left">
+          <div>✓ First assets in 7 days</div>
+          <div>✓ Cancel anytime</div>
+          <div>✓ 60-day guarantee</div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Ticker = () => {
   return (
     <div className="bg-brand py-4 overflow-hidden whitespace-nowrap border-y border-white/10">
@@ -311,15 +333,17 @@ const WorkSection = () => {
             <p className="text-lg font-semibold leading-tight mb-8 max-w-md">
               We help creators turn YouTube into their main growth engine through high-CTR packaging, retention-optimized editing, and data-driven strategy.
             </p>
-            <Link 
-              to="/#pricing"
+            <a 
+              href="https://tally.so/r/1AK2eg"
+              target="_blank"
+              rel="noreferrer"
               className="inline-block bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 hover:scale-105 transition-all cursor-pointer"
             >
-              CHOOSE YOUR PLAN
-            </Link>
+              Get Your Free Channel Diagnostic
+            </a>
           </div>
           <div className="text-right">
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight uppercase leading-[0.8]">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight uppercase leading-[0.95]">
               A glimpse at<br />our work
             </h2>
           </div>
@@ -504,7 +528,7 @@ const Logos = () => {
         <div className="text-center">
           <ScrollReveal direction="up" delay={0.1}>
             <div className="space-y-6">
-              <h2 className="text-4xl md:text-[4.2rem] font-bold text-white leading-[1.1] tracking-normal uppercase">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight uppercase">
                 THEY UNDERSTAND THE ALGORITHM BETTER THAN ANYONE I'VE WORKED WITH.
               </h2>
               
@@ -587,7 +611,7 @@ const CaseStudiesSection = () => {
             <span className="text-[11px] font-semibold tracking-[3px] uppercase text-brand block mb-5">
               Case Studies
             </span>
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight uppercase leading-[0.95]">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight uppercase leading-[0.95]">
               CHANNELS WE'VE<br />
               TRANSFORMED.
             </h2>
@@ -616,13 +640,13 @@ const CaseStudiesSection = () => {
                     <img
                       src={caseItem.image}
                       alt={caseItem.channel}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+                  className="w-full h-full object-cover"
+                />
+              </div>
                   <div>
                     <div className="case-channel text-lg md:text-xl font-semibold text-white mb-1">
                       {caseItem.channel}
-                    </div>
+            </div>
                     <div className="text-[11px] text-gray-400 mt-1 tracking-wide uppercase font-medium">
                       {caseItem.niche}
                     </div>
@@ -640,8 +664,8 @@ const CaseStudiesSection = () => {
                   <div className="case-desc text-[11px] text-gray-400 uppercase tracking-wide">
                     {caseItem.metrics[0].desc}
                   </div>
-                </div>
-
+            </div>
+            
                 {/* Metric 2 */}
                 <div>
                   <div className="case-before text-xs md:text-sm text-gray-400 font-medium mb-2">
@@ -665,6 +689,564 @@ const CaseStudiesSection = () => {
             <p className="text-[11px] text-gray-400 tracking-wide">
               * Data shared with creator permission. Full analytics available on call.
             </p>
+            </div>
+          </ScrollReveal>
+      </div>
+    </section>
+  );
+};
+
+const DarkGridBackground = () => (
+  <div
+    className="absolute inset-0 pointer-events-none"
+    style={{
+      backgroundImage:
+        "linear-gradient(rgba(245,242,236,0.02) 1px,transparent 1px), linear-gradient(90deg,rgba(245,242,236,0.02) 1px,transparent 1px)",
+      backgroundSize: "80px 80px",
+    }}
+  />
+);
+
+const InstagramSection = () => {
+  return (
+    <section
+      className="py-24 md:py-32 px-6 md:px-12 border-t border-white/10 relative overflow-hidden"
+      style={{ background: "#080808" }}
+    >
+      {/* Grid background texture */}
+      <DarkGridBackground />
+
+      {/* Red glow */}
+      <div
+        className="pointer-events-none absolute top-1/2 right-[10%] -translate-y-1/2"
+                style={{ 
+          width: 500,
+          height: 500,
+          background:
+            "radial-gradient(ellipse,rgba(224,58,47,0.07) 0%,transparent 70%)",
+        }}
+      />
+
+      <div className="relative z-10 max-w-6xl xl:max-w-7xl mx-auto">
+        {/* Label */}
+        <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-brand block mb-12">
+          The Platform Decision
+              </span>
+
+        <div className="grid md:grid-cols-2 gap-12 xl:gap-20 items-center">
+          {/* LEFT SIDE */}
+          <div>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.95] text-white tracking-tight">
+              HOW MANY HOURS<br />
+              DID YOU SPEND ON<br />
+              <span className="text-brand">INSTAGRAM</span>
+              <br />
+              LAST MONTH?
+            </h2>
+
+            <p className="mt-7 text-sm md:text-base text-neutral-400 leading-relaxed max-w-md">
+              Now tell me how many of those posts are still generating revenue
+              today. That silence is the cost of building on the wrong
+              platform.
+            </p>
+
+            <div className="w-12 h-px bg-brand my-10" />
+
+            {/* Comparison table */}
+            <div className="border border-white/10 text-sm text-neutral-300">
+              {/* Header row */}
+              <div className="grid grid-cols-3 border-b border-white/10">
+                <div className="px-5 py-3" />
+                <div className="px-5 py-3 border-l border-white/10 text-[10px] font-medium tracking-[0.16em] uppercase text-neutral-500">
+                  Instagram
+                </div>
+                <div className="px-5 py-3 border-l border-white/10 text-[10px] font-medium tracking-[0.16em] uppercase text-brand">
+                  YouTube
+                </div>
+              </div>
+
+              {[
+                {
+                  label: "Content lifespan",
+                  ig: "24 to 48 hours",
+                  yt: "Months or years",
+                },
+                {
+                  label: "Organic reach",
+                  ig: "Resets every post",
+                  yt: "Compounds over time",
+                },
+                {
+                  label: "Passive revenue",
+                  ig: "None",
+                  yt: "AdSense runs 24/7",
+                },
+                {
+                  label: "Search discovery",
+                  ig: "Not indexed on Google",
+                  yt: "Ranked on Google",
+                },
+                {
+                  label: "ROI over time",
+                  ig: "Diminishing",
+                  yt: "Exponential",
+                },
+              ].map((row) => (
+                <div
+                  key={row.label}
+                  className="grid grid-cols-3 border-b last:border-b-0 border-white/10"
+                >
+                  <div className="px-5 py-4 text-[11px] font-semibold tracking-[0.1em] uppercase text-neutral-500 flex items-center">
+                    {row.label}
+                  </div>
+                  <div className="px-5 py-4 border-l border-white/10 text-neutral-500 flex items-center">
+                    {row.ig}
+                  </div>
+                  <div className="px-5 py-4 border-l border-white/10 text-white font-medium flex items-center">
+                    {row.yt}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT SIDE: image in dark frame */}
+          <div className="relative">
+            <div className="border border-white/10 p-10 bg-white/5 relative">
+              {/* Corner accents */}
+              <div className="absolute -top-px -right-px w-10 h-10 border-t-2 border-r-2 border-brand" />
+              <div className="absolute -bottom-px -left-px w-10 h-10 border-b-2 border-l-2 border-brand" />
+
+              <img
+                src={InstagramImg}
+                alt="Instagram dies. YouTube compounds."
+                className="w-full block"
+                style={{ 
+                  filter: "drop-shadow(0 24px 48px rgba(224,58,47,0.25))",
+                }}
+              />
+
+              <div className="mt-6 pt-6 border-t border-white/10 text-[11px] text-neutral-500 tracking-[0.08em] uppercase text-center">
+                Instagram 2010 — 2026 &nbsp;·&nbsp; YouTube: Still Running
+              </div>
+            </div>
+
+            <div className="mt-1 bg-brand/10 border border-white/10 px-8 py-6 flex items-center gap-6">
+              <div className="text-4xl md:text-5xl font-bold text-brand leading-none">
+                60%
+              </div>
+              <div className="text-[11px] text-neutral-200 tracking-[0.08em] uppercase leading-relaxed">
+                Of total views on established YouTube channels
+                <br />
+                come from videos older than 6 months
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Services = () => {
+  return (
+    <section className="bg-white border-t-4 border-black py-24 md:py-32 px-6 md:px-12">
+      {/* Top header row */}
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-20 items-end mb-20 pb-20 border-b border-black/10">
+        <div>
+          <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-brand block mb-5">
+            The Method
+          </span>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.9] text-black tracking-tight">
+            HOW WE
+            <br />
+            <span className="text-brand">SCALE</span>
+            <br />
+            YOU.
+          </h2>
+        </div>
+
+        <div className="flex flex-col justify-end gap-8">
+          <p className="text-sm md:text-base text-neutral-600 leading-relaxed max-w-md">
+            We are completely focused on one thing: transforming your content into a
+            high-performance growth engine that dominates the algorithm. Every step is
+            engineered, not guessed.
+          </p>
+          <Link
+            to="/#pricing"
+            className="inline-block bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-colors"
+          >
+            Start Growing My Channel
+          </Link>
+        </div>
+      </div>
+
+      {/* 3 steps */}
+      <div className="max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-px bg-black/10 border border-black/10">
+          {/* STEP 01 */}
+          <div className="bg-white flex flex-col">
+            <div className="relative overflow-hidden aspect-[4/3] group">
+              <img
+                src={Step1Image}
+                alt="Strategic Blueprint"
+                className="w-full h-full object-cover transition-transform duration-400 group-hover:scale-[1.03] group-hover:grayscale-0 grayscale-[20%]"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute top-5 left-5 bg-brand px-3 py-1.5">
+                <span className="text-[10px] font-semibold tracking-[0.16em] uppercase text-white">
+                  Step 01
+              </span>
+              </div>
+            </div>
+
+            <div className="p-10 flex-1 flex flex-col border-t border-black/10">
+              <h3 className="font-bold uppercase text-black text-2xl tracking-[0.06em] leading-tight mb-4">
+                THE STRATEGIC
+                <br />
+                BLUEPRINT
+              </h3>
+              <p className="text-sm text-neutral-600 leading-relaxed flex-1">
+                We do not guess. We engineer. Every project starts with a deep-dive audit of your
+                channel&apos;s historical data and your competitors&apos; winning patterns. We
+                identify exactly where you are losing clicks and where your retention is bleeding.
+                Before we touch a single frame, we build your custom Growth Blueprint, a
+                data-backed roadmap designed to dominate your specific niche.
+              </p>
+              <div className="mt-7 pt-6 border-t border-black/10 flex flex-col gap-2.5">
+                {[
+                  "90-day channel audit",
+                  "Competitor pattern mapping",
+                  "Custom Growth Blueprint",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center gap-2.5 text-[11px] tracking-[0.08em] uppercase text-neutral-500"
+                  >
+                    <span className="w-1 h-1 rounded-full bg-brand flex-shrink-0" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* STEP 02 */}
+          <div className="bg-white flex flex-col">
+            <div className="relative overflow-hidden aspect-[4/3] group">
+              <img
+                src={Step2Image}
+                alt="Elite Production"
+                className="w-full h-full object-cover transition-transform duration-400 group-hover:scale-[1.03] group-hover:grayscale-0 grayscale-[20%]"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute top-5 left-5 bg-brand px-3 py-1.5">
+                <span className="text-[10px] font-semibold tracking-[0.16em] uppercase text-white">
+                  Step 02
+                </span>
+              </div>
+            </div>
+
+            <div className="p-10 flex-1 flex flex-col border-t border-black/10">
+              <h3 className="font-bold uppercase text-black text-2xl tracking-[0.06em] leading-tight mb-4">
+                HIGH-VELOCITY
+                <br />
+                PRODUCTION
+              </h3>
+              <p className="text-sm text-neutral-600 leading-relaxed flex-1">
+                Once the strategy is locked, our production engine starts. We deliver high-CTR
+                thumbnails, data-backed script hooks, and retention-focused editing in a relentless
+                48 to 72 hour cycle. You get a constant stream of ready-to-post assets, each
+                engineered to feed the algorithm exactly what it demands: attention and retention.
+              </p>
+              <div className="mt-7 pt-6 border-t border-black/10 flex flex-col gap-2.5">
+                {[
+                  "48–72 hour delivery cycle",
+                  "Thumbnails, scripts, editing",
+                  "Ready to post on arrival",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center gap-2.5 text-[11px] tracking-[0.08em] uppercase text-neutral-500"
+                  >
+                    <span className="w-1 h-1 rounded-full bg-brand flex-shrink-0" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* STEP 03 */}
+          <div className="bg-white flex flex-col">
+            <div className="relative overflow-hidden aspect-[4/3] group">
+              <img
+                src={Step3Image}
+                alt="Data-Driven Optimization"
+                className="w-full h-full object-cover transition-transform duration-400 group-hover:scale-[1.03] group-hover:grayscale-0 grayscale-[20%]"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute top-5 left-5 bg-brand px-3 py-1.5">
+                <span className="text-[10px] font-semibold tracking-[0.16em] uppercase text-white">
+                  Step 03
+                </span>
+            </div>
+            </div>
+
+            <div className="p-10 flex-1 flex flex-col border-t border-black/10">
+              <h3 className="font-bold uppercase text-black text-2xl tracking-[0.06em] leading-tight mb-4">
+                DATA-DRIVEN
+                <br />
+                OPTIMIZATION
+              </h3>
+              <p className="text-sm text-neutral-600 leading-relaxed flex-1">
+                We launch, we track, and we optimize. We use real-time performance metrics to double
+                down on what is working and ruthlessly cut what is not. Your channel stops being a
+                guessing game and starts being a predictable revenue and attention machine. We scale
+                your winners until you own your category.
+              </p>
+              <div className="mt-7 pt-6 border-t border-black/10 flex flex-col gap-2.5">
+                {[
+                  "Real-time CTR monitoring",
+                  "Active post-publish swaps",
+                  "Monthly deep-dive reports",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center gap-2.5 text-[11px] tracking-[0.08em] uppercase text-neutral-500"
+                  >
+                    <span className="w-1 h-1 rounded-full bg-brand flex-shrink-0" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+        </div>
+      </div>
+      
+        {/* Bottom stat bar */}
+        <div className="mt-1 bg-black text-white grid md:grid-cols-3 border border-black/10 border-t-0">
+          <div className="px-10 py-7 md:py-8 border-r border-white/10 flex items-center gap-4">
+            <span className="text-4xl md:text-5xl font-bold text-brand leading-none">7</span>
+            <span className="text-[11px] tracking-[0.08em] uppercase text-neutral-300 leading-snug">
+              Days to first
+              <br />
+              asset delivery
+            </span>
+    </div>
+          <div className="px-10 py-7 md:py-8 border-r border-white/10 flex items-center gap-4">
+            <span className="text-4xl md:text-5xl font-bold text-brand leading-none">48h</span>
+            <span className="text-[11px] tracking-[0.08em] uppercase text-neutral-300 leading-snug">
+              Active monitoring
+              <br />
+              after every publish
+            </span>
+          </div>
+          <div className="px-10 py-7 md:py-8 flex items-center gap-4">
+            <span className="text-4xl md:text-5xl font-bold text-brand leading-none">60</span>
+            <span className="text-[11px] tracking-[0.08em] uppercase text-neutral-300 leading-snug">
+              Day CTR guarantee
+              <br />
+              or you don&apos;t pay
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const PostSignupTimelineSection = () => {
+  const steps = [
+    {
+      day: "01",
+      label: "Day One",
+      title: "You complete the onboarding form",
+      description:
+        "After signing up, you receive a short onboarding form. You share your channel link, your content goals, your niche, your target audience, and any reference channels you admire. No call needed. The form takes under 15 minutes.",
+      tag: "You do this once",
+    },
+    {
+      day: "03",
+      label: "Day Three",
+      title: "You receive your channel audit and Growth Blueprint",
+      description:
+        "We run a full diagnostic of your channel: thumbnail patterns, CTR signals, retention behavior, niche positioning, and competitor analysis. You receive a written document showing exactly where you are losing clicks and what we fix first.",
+      tag: "No fluff. Just data and a clear action plan.",
+    },
+    {
+      day: "07",
+      label: "Day Seven",
+      title: "First thumbnails and scripts delivered for your approval",
+      description:
+        "Your first batch of assets lands in your shared workspace. Three thumbnail variations for your next video, the full script with hook architecture mapped out, and your optimized title options. You review, leave feedback, and we refine within 24 hours.",
+      tag: "One round of revisions included per asset",
+    },
+    {
+      day: "14",
+      label: "Day Fourteen",
+      title: "First optimized video goes live on your channel",
+      description:
+        "Your first video with VHORO packaging is published. We monitor CTR in real time. If performance signals underperform in the first 48 hours, we swap the thumbnail and title immediately without waiting for you to notice.",
+      tag: "Active monitoring starts the moment you publish",
+    },
+    {
+      day: "30",
+      label: "Day Thirty",
+      title: "First performance report and month two strategy",
+      description:
+        "You receive a full report covering CTR before and after, impressions growth, subscriber velocity, and the top three opportunities we identified for the next month. This is where most clients start seeing the data shift in their own YouTube Studio dashboard.",
+      tag: "Results you can verify yourself",
+    },
+  ];
+
+  return (
+    <section className="py-24 md:py-32 px-6 md:px-12 bg-neutral-100">
+      <div className="max-w-7xl mx-auto">
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="max-w-3xl">
+            <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-brand block mb-5">
+              From Payment to First Results
+            </span>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95] text-neutral-900 uppercase mb-4">
+              HERE IS EXACTLY<br />
+              WHAT HAPPENS<br />
+              AFTER YOU SIGN UP.
+        </h2>
+            <p className="mt-4 text-sm md:text-base text-neutral-600 leading-relaxed max-w-xl">
+              No ambiguity. No waiting for someone to reply. This is the exact sequence from the moment you
+              sign up to the moment your first optimized video goes live.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        <div className="mt-16 md:mt-20 border border-neutral-300/60 divide-y divide-neutral-300/60 bg-neutral-100/30">
+          {steps.map((step, index) => (
+            <ScrollReveal key={step.day} direction="up" delay={0.15 + index * 0.08}>
+              <div className="grid md:grid-cols-[140px_1fr]">
+                <div className="border-b md:border-b-0 md:border-r border-neutral-300/60 px-8 md:px-10 py-10 md:py-12">
+                  <div className="text-5xl md:text-6xl font-bold text-brand leading-none">
+                    {step.day}
+                  </div>
+                  <div className="text-[10px] tracking-[0.2em] uppercase text-neutral-500 mt-1 font-semibold">
+                    {step.label}
+                  </div>
+                </div>
+                <div className="px-8 md:px-12 py-10 md:py-12">
+                  <h3 className="text-base md:text-lg font-semibold text-neutral-900 mb-3">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm md:text-[15px] text-neutral-700 leading-relaxed max-w-2xl">
+                    {step.description}
+                  </p>
+                  <span className="inline-block mt-4 text-[10px] tracking-[0.16em] uppercase text-brand bg-brand/10 px-3 py-1 font-semibold">
+                    {step.tag}
+                  </span>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const DivisionOfWorkSection = () => {
+  const whatYouSend = [
+    "Your raw footage or recorded video file",
+    "A brief description of what the video is about",
+    "Any specific talking points or structure you want kept",
+    "Your brand references on the first video only",
+    "Approval or feedback within 48 hours when we send drafts",
+  ];
+
+  const whatWeDeliver = [
+    "Three thumbnail variations engineered for maximum CTR",
+    "Full script or hook rewrite optimized for retention",
+    "Three title variations with A/B testing strategy",
+    "Complete metadata: description, tags, chapters, cards",
+    "Edited video with retention-optimized pacing (Plan 02 and above)",
+    "YouTube Shorts cut from the long-form (Plan 02 and above)",
+    "7-day post-publish monitoring with active swaps if needed",
+    "Monthly performance report with next month strategy",
+  ];
+
+  return (
+    <section
+      className="py-24 md:py-32 px-6 md:px-12 border-t border-white/10 relative overflow-hidden"
+      style={{ background: "#080808" }}
+    >
+      <DarkGridBackground />
+      <div className="max-w-7xl mx-auto relative z-10">
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="max-w-4xl ml-auto text-right">
+            <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-white block mb-5">
+              The Division of Work
+            </span>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[0.95] tracking-tight uppercase">
+              YOU FOCUS ON<br />
+              <span className="text-brand">RECORDING.</span>
+              <br />
+              WE HANDLE<br />
+              <span className="text-white">EVERYTHING ELSE.</span>
+            </h2>
+        </div>
+        </ScrollReveal>
+
+        <ScrollReveal direction="up" delay={0.18}>
+          <div className="mt-16 md:mt-20 border border-white/10 bg-white/5">
+            <div className="grid md:grid-cols-2 gap-px bg-white/10">
+              {/* What you send us */}
+              <div className="bg-neutral-950 px-8 md:px-12 py-10 md:py-13">
+                <div className="text-[11px] font-semibold tracking-[0.3em] uppercase text-neutral-400 pb-6 mb-0 border-b border-white/10">
+                  What you send us
+                </div>
+                <ul className="list-none divide-y divide-white/10">
+                  {whatYouSend.map((item) => (
+                    <li
+                      key={item}
+                      className="flex gap-3 items-start py-4 text-sm text-neutral-400 leading-relaxed"
+                    >
+                      <span className="text-xs text-neutral-400 mt-1 flex-shrink-0">
+                        →
+                      </span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+      </div>
+
+              {/* What we deliver back */}
+              <div className="bg-neutral-950 px-8 md:px-12 py-10 md:py-13">
+                <div className="text-[11px] font-semibold tracking-[0.3em] uppercase text-brand pb-6 mb-0 border-b border-white/10">
+                  What we deliver back
+            </div>
+                <ul className="list-none divide-y divide-white/10">
+                  {whatWeDeliver.map((item) => (
+                    <li
+                      key={item}
+                      className="flex gap-3 items-start py-4 text-sm text-white leading-relaxed"
+                    >
+                      <span className="text-xs text-brand font-bold mt-1 flex-shrink-0">
+                        ✓
+                      </span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-brand/5 border-t border-white/10 px-8 md:px-12 py-6 md:py-7">
+              <p className="text-xs md:text-sm text-white/90 leading-relaxed">
+                <span className="font-semibold">
+                  No calls required at any stage of the process.
+                </span>{" "}
+                All communication happens asynchronously through a shared workspace. You record. We
+                engineer the growth. That is the entire arrangement.
+              </p>
+            </div>
           </div>
         </ScrollReveal>
       </div>
@@ -672,125 +1254,115 @@ const CaseStudiesSection = () => {
   );
 };
 
-const InstagramSection = () => {
-  return (
-    <div className="bg-white">
-      <div className="py-24 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="space-y-12"
-          >
-            {/* Texto centralizado */}
-            <p className="text-3xl md:text-5xl lg:text-6xl font-bold text-black leading-tight uppercase">
-              ON{" "}
-              <span 
-                style={{ 
-                  fontFamily: '"Rock Salt", cursive',
-                  color: '#FF0033',
-                  fontWeight: 900,
-                  textTransform: 'none'
-                }}
-              >
-                Instagram
-              </span>
-              , YOUR CONTENT DISAPPEARS IN 24 HOURS. ON{" "}
-              <span 
-                style={{ 
-                  fontFamily: '"Rock Salt", cursive',
-                  color: '#FF0033',
-                  fontWeight: 900,
-                  textTransform: 'none'
-                }}
-              >
-                YouTube
-              </span>
-              , IT CONTINUES TO SELL FOR MONTHS (OR YEARS).
-            </p>
-
-            {/* Imagem embaixo */}
-            <div className="flex justify-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                <img 
-                  src={InstagramImg} 
-                  alt="Instagram to YouTube transition" 
-                  className="w-full max-w-4xl md:max-w-5xl lg:max-w-6xl mx-auto object-contain"
-                />
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-      
-      {/* Linha divisória */}
-      <div className="border-t border-gray-200"></div>
-    </div>
-  );
-};
-
-const Services = () => {
-  const services = [
-    {
-      title: "01. THE STRATEGIC BLUEPRINT (AUDIT & RESEARCH)",
-      label: "STEP 1",
-      image: Step1Image,
-      description: "We don’t guess; we engineer. Every project starts with a deep-dive audit of your channel’s historical data and your competitors' winning patterns. We identify exactly where you’re losing clicks and where your retention is bleeding. Before we touch a single frame, we build your custom Growth Blueprint—a data-backed roadmap designed to dominate your specific niche."
-    },
-    {
-      title: "02. HIGH-VELOCITY ELITE PRODUCTION (EXECUTION)",
-      label: "STEP 2",
-      image: Step2Image,
-      description: "Once the strategy is locked, our production engine starts. We deliver high-CTR thumbnails, data-backed script hooks, and retention-focused editing in a relentless 48 to 72-hour cycle. You get a constant stream of \"ready-to-post\" assets, each meticulously crafted by our expert team to feed the algorithm exactly what it demands: Attention and Retention."
-    },
-    {
-      title: "03. DATA-DRIVEN OPTIMIZATION (SCALE)",
-      label: "STEP 3",
-      image: Step3Image,
-      description: "We launch, we track, and we optimize. We use real-time performance metrics to double down on what’s working and ruthlessly cut what isn’t. Your channel stops being a guessing game and starts being a predictable revenue and attention machine. We provide monthly deep-dive reports and scale your winners until you own your category."
-    }
+const CtaAssurancesStrip = () => {
+  const points = [
+    "No long-term contracts",
+    "Cancel anytime",
+    "First assets in 7 days",
+    "60-day CTR guarantee",
+    "No calls or meetings required",
+    "Results visible in YouTube Studio",
   ];
 
   return (
-    <section className="py-24 px-6 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-start mb-16 gap-8">
-        <h2 className="text-5xl md:text-7xl font-bold tracking-tight uppercase leading-[0.8]">
-          How we<br />scale you
-        </h2>
-        <div className="max-w-sm">
-          <p className="text-sm font-semibold mb-6">
-            We are completely focused on one thing: transforming your content into a high-performance growth engine that dominates the algorithm.
-          </p>
-          <Link 
-            to="/#pricing"
-            className="inline-block bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-colors"
+    <div className="w-full border-y border-white/10 bg-white/5 px-6 md:px-12 py-4">
+      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-4 md:gap-8">
+        {points.map((text) => (
+          <div
+            key={text}
+            className="flex items-center gap-2 text-[11px] md:text-xs font-medium text-neutral-300"
           >
-            CHOOSE YOUR PLAN
-          </Link>
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-12">
-        {services.map((service, i) => (
-          <div key={i} className="space-y-6">
-            <div className="aspect-[4/5] overflow-hidden bg-gray-100 rounded-2xl">
-              <img src={service.image} alt={service.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
-            </div>
-            <div>
-              <span className="text-[10px] font-semibold tracking-widest text-gray-500 uppercase">{service.label}</span>
-              <h3 className="text-3xl font-bold tracking-tight uppercase mt-1 mb-4">{service.title}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                {service.description}
-              </p>
-            </div>
+            <span className="w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0" />
+            <span>{text}</span>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+const ObjectionsSection = () => {
+  const items = [
+    {
+      question: '"I tried agencies before and got nothing."',
+      answer:
+        "Most agencies sell production volume. We sell performance engineering. The difference is that every asset we deliver is built around your channel data, not a generic template. If we do not improve your CTR in 60 days, you do not pay for month two. That is how confident we are in the work.",
+      highlight:
+        "performance engineering.",
+    },
+    {
+      question: '"I am not sure my channel is ready for this."',
+      answer:
+        "If you have at least 10,000 subscribers and you are uploading consistently, your channel is ready. The creators who benefit most are not the ones with the biggest channels. They are the ones with good content that the algorithm is not pushing. That is a packaging problem, and that is exactly what we fix.",
+      highlight:
+        "good content that the algorithm is not pushing.",
+    },
+    {
+      question: '"I do not have time to manage another vendor."',
+      answer:
+        "You will spend under two hours per month interacting with us. You fill out the onboarding form once, you approve assets when they land in your workspace, and you read the monthly report. Everything else is on our side. No calls. No check-ins. No meetings.",
+      highlight:
+        "Everything else is on our side.",
+    },
+    {
+      question: '"What if my niche is too specific for this to work?"',
+      answer:
+        "Niche specificity is an advantage, not a problem. The more specific your niche, the easier it is to identify the exact packaging patterns that win in your feed. We have scaled channels in finance, business, lifestyle, tech, and personal development. The engineering principles are the same. Only the creative execution changes.",
+      highlight:
+        "We have scaled channels in finance, business, lifestyle, tech, and personal development.",
+    },
+  ];
+
+  return (
+    <section
+      className="py-24 md:py-32 px-6 md:px-12 border-t border-white/10 relative overflow-hidden"
+      style={{ background: "#080808" }}
+    >
+      <DarkGridBackground />
+      <div className="max-w-7xl mx-auto relative z-10">
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="max-w-4xl">
+            <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-brand block mb-5">
+              Still On The Fence
+            </span>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[0.95] tracking-tight uppercase">
+              WE HAVE HEARD<br />
+              <span className="text-brand">EVERY OBJECTION.</span>
+              <br />
+              HERE ARE<br />
+              THE ANSWERS.
+            </h2>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal direction="up" delay={0.18}>
+          <div className="mt-16 md:mt-20 border border-white/10 bg-white/5">
+            <div className="grid md:grid-cols-2 gap-px bg-white/10">
+              {items.map((item, idx) => (
+                <div
+                  key={idx}
+                  className={`bg-neutral-950 px-8 md:px-12 py-10 md:py-12 ${
+                    idx >= 2 ? "border-t border-white/10" : ""
+                  }`}
+                >
+                  <p className="text-sm md:text-[15px] italic text-neutral-400 mb-5 leading-relaxed">
+                    {item.question}
+                  </p>
+                  <p className="text-sm md:text-[15px] text-white leading-relaxed font-normal">
+                    {item.answer.split(item.highlight)[0]}
+                    <span className="text-brand font-semibold">
+                      {item.highlight}
+                    </span>
+                    {item.answer.split(item.highlight)[1]}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-white/10 mt-8 pt-6">
+              <CtaAssurancesStrip />
+            </div>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -846,39 +1418,65 @@ const PricingSection = () => {
     {
       name: "PLAN 01",
       subtitle: "VHORO CLICK ARCHITECT™",
-      system: "(The Packaging & Performance System)",
-      bestFor: "Creators with strong content that underperforms on impressions.",
+      system: "The Packaging & Performance System",
+      bestFor:
+        "Creators with strong content that underperforms in the feed. Your problem is not the video. It is the packaging.",
       price: "$1,490",
       investmentNote: "/ month",
-      totalValue: "$9,500",
       cta: "DOMINATE THE CLICK",
       priceId: "price_1T7IOgFjJxHsNvNGn01NsM8e",
       deliverables: [
         { item: "Thumbnails & Packaging" },
-        { item: "12 High-Performance Thumbnails" },
-        { item: "4 videos per month with 3 strategic thumbnail variations per video, engineered to maximize CTR and stand out in the YouTube feed." },
-        { item: "Live A/B/C Testing" },
-        { item: "Real-time thumbnail and title swaps based on performance data to continuously improve click-through rate." },
-        { item: "Scriptwriting & Content Structure" },
-        { item: "4 Full Long-Form Video Scripts" },
-        { item: "Structured scripts optimized for viewer retention, clarity, and audience progression throughout the video." },
+        {
+          item:
+            "12 high-performance thumbnails per month. 4 videos with 3 strategic variations each, engineered to maximize CTR and stop the scroll."
+        },
+        {
+          item:
+            "Live A/B/C testing with real-time swaps based on performance signals. We do not wait. We act on data."
+        },
+        { item: "Scriptwriting & Hook Engineering" },
+        {
+          item:
+            "4 full long-form video scripts per month, structured for clarity, retention, and audience progression."
+        },
+        {
+          item:
+            "Hook architecture for the first 30 seconds of every video, engineered to hold attention before the algorithm decides your video is worth pushing."
+        },
         { item: "Channel Optimization" },
-        { item: "Advanced Metadata Optimization" },
-        { item: "CTR-focused titles, structured descriptions, and strategic tag architecture designed for discoverability and search positioning." },
-        { item: "Performance Intelligence" },
-        { item: "Monthly Competitor Analysis" },
-        { item: "Breakdown of competitor content strategy, packaging patterns, and performance opportunities within your niche." },
-        { item: "Performance Report" },
-        { item: "Monthly report covering CTR, impressions growth, and subscriber velocity." },
-        { item: "Post-Publish Optimization" },
-        { item: "Post-Publish Optimization — First 7 Days" },
-        { item: "Active monitoring of CTR and performance signals with title refinements and packaging adjustments during the critical launch window." }
+        {
+          item:
+            "Advanced metadata on every upload: CTR-focused titles, structured descriptions, tags, chapters, cards, and end screens."
+        },
+        {
+          item:
+            "90-day channel audit on kickoff. We diagnose exactly where you are losing clicks and attention before we touch anything."
+        },
+        { item: "Performance Monitoring" },
+        {
+          item:
+            "7-day active post-publish monitoring on every video. If CTR underperforms in the first 48 hours, we swap the thumbnail and title immediately."
+        },
+        {
+          item:
+            "Monthly competitor analysis: breakdown of 2 direct competitors' packaging patterns and content strategy."
+        },
+        { item: "Reporting & Strategy" },
+        {
+          item:
+            "Monthly performance report covering CTR, impressions growth, and subscriber velocity."
+        },
+        {
+          item:
+            "30-minute monthly strategy call to review performance and plan the next month."
+        }
       ],
       outcomes: [
-        "Higher CTR",
-        "Stronger first-week performance",
-        "Improved audience retention",
-        "Faster growth momentum"
+        "Higher CTR within the first 2 to 3 videos.",
+        "Stronger first-week algorithm performance.",
+        "Scripts that hold viewers instead of losing them at the 30-second mark.",
+        "A packaging system that compounds over time."
       ],
       popular: false
     },
@@ -886,43 +1484,100 @@ const PricingSection = () => {
       name: "PLAN 02",
       subtitle: "VHORO RETENTION ENGINE™",
       system: "The Watch-Time & Scale System",
-      bestFor: "Creators and brands ready to scale their channel with consistent publishing, stronger storytelling, and deeper audience retention.",
+      bestFor:
+        "Creators between 50k and 500k subscribers who are ready to turn their channel into a predictable growth and revenue machine. You have an audience. You need a system.",
       price: "$3,490",
       investmentNote: "/ month",
-      totalValue: "$24,000",
       cta: "SCALE MY REACH",
       priceId: "price_1T7IOwFjJxHsNvNG6G2q2B8y",
       deliverables: [
         { item: "Thumbnails & Packaging" },
-        { item: "24 High-Performance Thumbnails" },
-        { item: "8 videos per month with 3 optimized thumbnail variations each, designed to maximize CTR and capture attention in competitive feeds." },
+        {
+          item:
+            "24 high-performance thumbnails per month. 8 videos with 3 optimized variations each."
+        },
+        {
+          item:
+            "Continuous A/B/C testing with weekly optimization cycles."
+        },
+        {
+          item:
+            "Title framework applied to every video: pattern-interrupt headlines engineered for curiosity and clicks."
+        },
         { item: "Scriptwriting & Content Architecture" },
-        { item: "8 Advanced Long-Form Video Scripts" },
-        { item: "Story-driven scripts engineered for viewer retention, watch-time depth, and binge potential." },
-        { item: "CLICK ARCHITECT™ Framework" },
-        { item: "Our proprietary system for structuring videos to maximize clicks, retention, and algorithm performance." },
+        {
+          item:
+            "8 full long-form video scripts per month, story-driven and engineered for watch time, binge potential, and audience progression."
+        },
+        {
+          item:
+            "Hook architecture for the first 30 to 60 seconds of every video."
+        },
+        {
+          item:
+            "Retention map per video: we map exactly where to place open loops, pattern interrupts, and re-engagement points to keep viewers watching."
+        },
+        { item: "Content Ideation" },
+        {
+          item:
+            "16 video ideas per month ranked by performance potential, so you never waste a video on a topic that will not grow the channel."
+        },
         { item: "Video Editing" },
-        { item: "8 Long-Form Video Edits" },
-        { item: "Clean, high-retention editing optimized for pacing, clarity, and viewer engagement." },
-        { item: "Simple editing structure focused on performance without complex motion graphics." },
-        { item: "Growth Strategy" },
-        { item: "Quarterly Content Strategy Roadmap" },
-        { item: "Strategic planning covering positioning, topic architecture, and authority growth." },
-        { item: "Monthly Retention Audit" },
-        { item: "Detailed drop-off curve analysis with structural improvements to increase viewer retention." },
+        {
+          item:
+            "8 long-form video edits per month, pacing optimized for retention, clarity, and engagement."
+        },
+        {
+          item:
+            "Clean, high-performance editing structure focused on holding viewers, not on complex motion graphics."
+        },
         { item: "Discovery Expansion" },
-        { item: "8 YouTube Shorts" },
-        { item: "Strategically produced to expand reach, discovery, and feed the long-form content ecosystem." },
+        {
+          item:
+            "8 YouTube Shorts per month, strategically produced to expand reach and feed viewers into your long-form content ecosystem."
+        },
+        { item: "Growth Strategy" },
+        {
+          item:
+            "Quarterly content strategy roadmap covering positioning, topic architecture, and niche authority growth."
+        },
+        {
+          item:
+            "Monthly retention audit with detailed drop-off curve analysis and structural fixes."
+        },
+        {
+          item:
+            "Weekly competitor intelligence: top 5 channels in your niche tracked and analyzed every week."
+        },
         { item: "Post-Publish Optimization" },
-        { item: "Ongoing Post-Publish Optimization" },
-        { item: "Title adjustments, thumbnail refresh cycles, and session optimization after publishing to continuously improve video performance." }
+        {
+          item:
+            "Unlimited post-publish monitoring on every video with refresh cycles if a video underperforms within 72 hours."
+        },
+        {
+          item:
+            "Session optimization: playlist structure and video sequencing to maximize watch time per session."
+        },
+        { item: "Reporting & Access" },
+        {
+          item:
+            "Full monthly performance report across all key metrics."
+        },
+        {
+          item:
+            "60-minute monthly strategy call with the founder."
+        },
+        {
+          item:
+            "Direct Slack access during business hours. No ticket system, no delays."
+        }
       ],
       outcomes: [
-        "Increased Average View Duration",
-        "Higher session watch time",
-        "Shorts-driven discovery growth",
-        "Stronger authority positioning",
-        "A scalable publishing system for consistent growth"
+        "Increased average view duration across all videos.",
+        "Higher session watch time and binge rate.",
+        "Shorts-driven discovery feeding long-form growth.",
+        "A content system that runs on data, not guesswork.",
+        "Stronger niche authority and algorithm positioning."
       ],
       popular: true
     },
@@ -930,36 +1585,82 @@ const PricingSection = () => {
       name: "PLAN 03",
       subtitle: "VHORO ELITE PARTNERSHIP™",
       system: "Custom YouTube Growth Architecture",
-      bestFor: "High-level creators, personal brands, and companies that require a fully customized YouTube growth operation built around their exact objectives.",
+      bestFor:
+        "High-level creators, personal brands, and companies that need a fully custom YouTube operation built around specific business outcomes. You are not looking for a service. You are looking for a growth partner.",
       price: "",
-      investmentNote: "Custom engagement — Pricing is determined after evaluating your channel stage, production volume, and growth goals.",
+      investmentNote: "Custom pricing, scoped after strategy call.",
       totalValue: "",
       cta: "CONTACT US",
       deliverables: [
-        { item: "Every engagement is engineered around the specific needs of your channel and growth strategy." },
-        { item: "This partnership can include any combination of the following services:" },
-        { item: "• Custom thumbnail production and testing cycles" },
-        { item: "• Advanced packaging strategy (titles + CTR experimentation)" },
-        { item: "• Long-form video editing" },
-        { item: "• Short-form editing and content repurposing" },
-        { item: "• Scriptwriting and storytelling development" },
-        { item: "• Content ideation and research" },
-        { item: "• Channel positioning and growth strategy" },
-        { item: "• Upload optimization (SEO, metadata, publishing systems)" },
-        { item: "• Post-publish optimization and performance monitoring" },
-        { item: "• Content ecosystem expansion (Shorts, clips, multi-platform distribution)" },
-        { item: "• Monetization architecture and funnel integration" },
-        { item: "• Launch and campaign support for major videos" },
-        { item: "• Dedicated growth strategist overseeing the channel" },
-        { item: "• Priority production team for faster execution" },
-        { item: "All services are modular and scalable, meaning we design the production capacity based on what your channel actually needs." }
+        { item: "Everything in the Retention Engine, plus:" },
+        { item: "Advanced Production" },
+        {
+          item:
+            "Custom video volume, up to 16 or more videos per month based on your publishing goals."
+        },
+        {
+          item:
+            "Premium editing with motion graphics if required, including series and recurring format production."
+        },
+        {
+          item:
+            "Full content repurposing: clips, reels, and carousels extracted from every long-form video."
+        },
+        { item: "Monetization Architecture" },
+        {
+          item:
+            "YouTube-to-revenue funnel design: channel to email list to product or service."
+        },
+        {
+          item:
+            "Sponsorship positioning strategy and revenue diversification roadmap across AdSense, memberships, merchandise, and affiliates."
+        },
+        {
+          item:
+            "CTA engineering inside scripts so every video is scripted to convert, not just entertain."
+        },
+        { item: "Full Channel Operation" },
+        {
+          item:
+            "Complete upload management: thumbnail, title, description, tags, and scheduling handled. You only record."
+        },
+        {
+          item:
+            "Publishing system with editorial calendar, briefings, approvals, and feedback in 48-hour cycles."
+        },
+        {
+          item:
+            "Deep SEO strategy: keyword research, topic clusters, and search vs browse content balance."
+        },
+        { item: "Accelerated Growth" },
+        {
+          item:
+            "Collaboration and cross-promotion strategy plus launch support for anchor videos."
+        },
+        {
+          item:
+            "Multi-platform distribution: YouTube content repurposed for podcast, newsletter, and LinkedIn."
+        },
+        { item: "Dedicated Access" },
+        {
+          item:
+            "Dedicated growth strategist and priority production team with 24–48 hour delivery."
+        },
+        {
+          item:
+            "Direct founder access and weekly strategy calls instead of monthly."
+        },
+        {
+          item:
+            "Dedicated Slack channel with 4-hour response time during business hours."
+        }
       ],
       outcomes: [
-        "Category leadership in your niche",
-        "A scalable and predictable content system",
-        "High-performance packaging and retention optimization",
-        "YouTube operating as a primary growth and revenue channel",
-        "A long-term strategic moat built around your content ecosystem"
+        "Category leadership in your niche.",
+        "YouTube operating as a primary revenue and growth channel.",
+        "A scalable, predictable content operation, not a content hamster wheel.",
+        "High-performance packaging and retention running as a system.",
+        "A long-term strategic moat built around your content ecosystem."
       ],
       popular: false
     }
@@ -1091,13 +1792,13 @@ const PerformanceGuaranteeSection = () => {
             </div>
             
             {/* Title */}
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight uppercase leading-tight mb-8">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight uppercase leading-tight mb-8">
               Performance Guarantee
             </h2>
             
             {/* Description */}
             <p className="text-lg md:text-xl text-white/90 leading-relaxed max-w-3xl">
-              If we don't measurably improve your CTR within the first 60 days, you don't pay for month two. We're not interested in retainers built on hope — we're interested in results you can see in your YouTube Studio dashboard.
+              Across all plans: if we do not measurably improve your CTR within the first 60 days, you do not pay for month two. We keep clients because of results, not contracts.
             </p>
           </div>
         </ScrollReveal>
@@ -1110,9 +1811,9 @@ const Blog = () => {
   const posts = [
     {
       date: "MARCH 04, 2026",
-      title: "THE COMPETITOR ANALYSIS PLAYBOOK: HOW TO STEAL YOUR COMPETITION'S BEST IDEAS (LEGALLY)",
-      image: CoverCompetitor,
-      slug: "competitor-analysis"
+      title: "THE RETENTION CODE: HOW TO SCRIPT VIDEOS THAT PEOPLE ACTUALLY FINISH",
+      image: CoverScriptRetention,
+      slug: "retention-code"
     },
     {
       date: "MARCH 04, 2026",
@@ -1129,12 +1830,13 @@ const Blog = () => {
   ];
 
   return (
-    <section className="bg-neutral-950 py-24 px-6">
-      <div className="max-w-7xl mx-auto">
+    <section className="bg-neutral-950 py-24 px-6 relative overflow-hidden">
+      <DarkGridBackground />
+      <div className="max-w-7xl mx-auto relative z-10">
         <ScrollReveal direction="up" delay={0.1}>
           <div className="flex items-center justify-between mb-16">
             <div className="h-px bg-white/20 flex-grow mr-8"></div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight uppercase">Read the latest</h2>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight uppercase">Read the latest</h2>
           </div>
         </ScrollReveal>
 
@@ -1161,7 +1863,7 @@ const Blog = () => {
 
         <ScrollReveal direction="up" delay={0.3}>
           <div className="flex flex-col items-center">
-            <div className="w-full h-px bg-white/20 mb-12"></div>
+            <div className="w-full h-px bg-white/20 mb-8"></div>
             <Link to="/insights" className="bg-brand text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 hover:scale-105 transition-all cursor-pointer">
               Our Blog
             </Link>
@@ -1175,127 +1877,235 @@ const Blog = () => {
 const FAQSection = () => {
   const categories = [
     {
-      name: "The Process",
-      faqs: [
+      id: "01",
+      title: "THE PROCESS",
+      questions: [
         {
-          question: "What happens immediately after I make the payment?",
-          answer: "The moment your payment is confirmed, you’ll be automatically redirected to our Elite Onboarding Portal. There, you’ll complete a deep-dive brand questionnaire so we can understand your voice and goals. Within 24 hours, you’ll receive your personalized access links to Slack for real-time communication and ClickUp to track every single one of your deliverables. No waiting, no guessing—we start engineering your growth the same day."
+          q: "What happens immediately after I make the payment?",
+          a: "Within 24 hours you receive your onboarding form and access to your shared workspace. Within 72 hours we deliver your channel audit and Growth Blueprint. Within 7 days your first assets are ready for approval. No call required at any point in the process.",
         },
         {
-          question: "What happens during the Onboarding & Briefing phase?",
-          answer: "This is where the magic happens. We spend the first week auditing your channel, your competitors, and your audience’s psychological triggers. We build a Content Blueprint with you. Once you approve the direction, we execute. This alignment is why we don't need multiple revisions."
+          q: "What happens during the Onboarding & Briefing phase?",
+          a: "You fill out one form. We ask for your channel link, your content goals, your target audience, your niche, and any reference channels you admire. That is everything we need to start. From that information we build your Growth Blueprint and begin production. You never have to explain yourself twice.",
         },
         {
-          question: "How do we communicate and give feedback?",
-          answer: "We use Slack for daily syncs and Frame.io for video feedback. You leave your comments directly on the video timeline. It’s fast, transparent, and ensures nothing gets lost in translation. One consolidated feedback session, one final version."
+          q: "How do we communicate and give feedback?",
+          a: "Everything happens asynchronously through your shared workspace. When assets are ready, you leave written feedback directly on the files. We return the revised version within 24 hours. No scheduled calls. No meetings. No email chains. Most clients spend under two hours per month communicating with us.",
         },
         {
-          question: "What is the turnaround time for a full video and thumbnail?",
-          answer: "From the moment we have the raw footage and the approved brief, we deliver within 48 to 72 hours. We move at the speed of social. We don't miss deadlines, and we don't compromise on quality. We are built for high-volume, high-impact creators."
-        }
-      ]
+          q: "What is the turnaround time for thumbnails and scripts?",
+          a: "First delivery happens within 7 days of onboarding. After that, thumbnails and scripts follow a 48 to 72 hour production cycle. Video edits take 5 to 7 business days from the moment we receive your raw footage. Every cycle has a clear deadline. Nothing sits waiting.",
+        },
+        {
+          q: "Do I need to share access to my YouTube Studio?",
+          a: "For Plan 01 we only need your public channel link. For Plan 02 and above, we request view-level analytics access so we can read your retention curves and CTR data directly. We never need posting access unless you want us to handle uploads as part of the Elite Partnership.",
+        },
+      ],
     },
     {
-      name: "Strategy & Performance",
-      faqs: [
+      id: "02",
+      title: "STRATEGY & PERFORMANCE",
+      questions: [
         {
-          question: "How do you research my niche before designing a thumbnail?",
-          answer: "We analyze the top 50 videos in your category from the last 90 days. We look at color patterns, font styles, and \"Hook-Angles\" that are currently winning the click. Your thumbnail isn't just a design; it’s a data-backed weapon built to beat your specific competition."
+          q: "How quickly will I see results?",
+          a: "Most clients see measurable CTR improvement within the first 2 to 3 videos. Significant channel-wide growth typically becomes visible between day 30 and day 60, depending on your upload frequency and niche competitiveness. We track every signal from day one so you can see the trajectory moving before the big numbers shift.",
         },
         {
-          question: "What is your process for video editing and retention?",
-          answer: "We don't just \"cut out the pauses.\" We map your raw footage against retention heatmaps from similar successful videos. We edit for pace, tension, and clarity. Our goal is to keep your Average View Duration (AVD) as high as possible by following a proven storytelling structure."
+          q: "How do you research my niche before touching anything?",
+          a: "Before we design anything, we audit the last 90 days of your channel's public performance signals, map the thumbnail and title patterns of your top 5 competitors, and identify the visual gaps in your niche feed. We find what is winning in your category and engineer your packaging to stand out against it specifically, not against YouTube in general.",
         },
         {
-          question: "How do you handle SEO and Title strategy?",
-          answer: "We balance Search Intent with Click-Through Psychology. We research high-volume keywords but wrap them in titles that demand a click. We optimize your metadata (tags, descriptions, chapters) so the algorithm knows exactly who your \"Ideal Viewer\" is."
+          q: "What makes your thumbnails different from what a freelancer would make?",
+          a: "A freelancer makes what looks good. We engineer what performs. Every thumbnail starts with a competitive analysis of your niche feed, a CTR hypothesis based on your channel's historical signals, and a three-variation testing structure. We then monitor performance after publish and swap actively if the data tells us to. A freelancer delivers a file. We deliver a system.",
         },
         {
-          question: "Do you provide script and hook optimization?",
-          answer: "Yes. If your intro is weak, your video is dead. We review your hooks and provide feedback to ensure the first 30 seconds are unskippable. We align the script with the thumbnail promise to prevent \"Click-Bait Disappointment\" and keep people watching."
+          q: "How do you write scripts that actually hold retention?",
+          a: "Every script is built around a retention map. We identify the moments most likely to cause drop-off and restructure the pacing around them. The first 30 seconds are engineered as a hook with an open loop that only closes near the end of the video. We place pattern interrupts at strategic intervals throughout. The goal is not a well-written script. The goal is a script the algorithm rewards.",
         },
         {
-          question: "What exactly is in the Monthly Performance Report?",
-          answer: "We provide a Strategic Audit of your channel’s health. We don't just show you views; we show you why they happened. We analyze CTR, AVD, and Traffic Sources. Most importantly, we give you a Action Plan for the next 30 days based on those cold, hard facts."
+          q: "What exactly is in the Monthly Performance Report?",
+          a: "CTR before and after our involvement. Impressions growth month over month. Subscriber velocity. Average view duration trends. A breakdown of which videos overperformed and the structural reasons why. A competitor snapshot showing what shifted in your niche that month. And the top three strategic opportunities we identified for the following month.",
         },
         {
-          question: "Do you offer consulting on channel growth and monetization?",
-          answer: "Yes. We are your YouTube Growth Department. If you’re thinking about a new product launch, a sponsorship, or a pivot in your content, we’re here to consult. We provide ongoing strategic support to ensure your channel is a revenue-generating asset."
-        }
-      ]
+          q: "Can you guarantee I will grow?",
+          a: "We guarantee measurable CTR improvement within 60 days or you do not pay for month two. CTR is entirely within our control. Subscriber growth depends on additional variables like your upload frequency, your content quality, and your niche size. We engineer everything on our side of the equation as hard as possible. The rest depends on you showing up consistently.",
+        },
+      ],
     },
     {
-      name: "Policies & Revisions",
-      faqs: [
+      id: "03",
+      title: "PRICING & COMMITMENT",
+      questions: [
         {
-          question: "Why do you only allow one round of revisions per asset?",
-          answer: "Because we don’t guess. Every thumbnail and edit is built on a Deep-Dive Briefing and our proprietary research into your niche’s performance data. We don't make \"pretty\" things; we make high-performance assets. If the briefing is solid, the first version is the winner. One round is for polish, not for changing the strategy."
+          q: "Is there a contract or minimum commitment?",
+          a: "No contracts. No minimum commitment. Month to month, cancel anytime. We keep clients because of results, not lock-in clauses. The average client stays for 8 months because the data keeps improving, not because they are obligated to.",
         },
         {
-          question: "What if I really need a second revision?",
-          answer: "If we missed a technical detail from the agreed-upon briefing, we fix it instantly. However, if you want to change the strategy or the \"vibe\" after the work is done, that falls outside the scope. We trust our data, and we need you to trust the process."
+          q: "Why is Plan 01 $1,490 and not cheaper?",
+          a: "Below that price point you get freelancers who deliver files without strategy, testing, or post-publish monitoring. What we charge includes the audit, the Growth Blueprint, the A/B testing infrastructure, the active monitoring, the monthly reporting, and the strategy call.",
         },
         {
-          question: "Can I change the creative direction mid-project?",
-          answer: "Once the briefing is signed off and production starts, the direction is locked. If you want to pivot, we do it in the next video’s briefing. This keeps the machine moving fast and ensures we don't waste time on \"creative indecision.\""
+          q: "What is the difference between Plan 01 and Plan 02 in practice?",
+          a: "Plan 01 fixes your packaging. Plan 02 fixes your entire content operation. If your problem is that good videos are not getting clicked, Plan 01 solves that. If your problem is that you need more videos, stronger retention, Shorts-driven discovery, and a quarterly strategy that compounds over time, Plan 02 is the right tool.",
         },
         {
-          question: "How do you ensure the editing style stays consistent?",
-          answer: "We build a Brand Style Guide for your channel during onboarding. This includes your specific fonts, color grading, transition styles, and music \"vibe.\" Every editor on our team follows this guide to ensure your brand is recognizable in every frame."
-        }
-      ]
-    }
+          q: "Do you work with channels outside the United States?",
+          a: "Yes. We work with creators globally. The only requirement is that your content is in English or that your target audience is English-speaking, since our niche research and competitor analysis are built around the English-language YouTube ecosystem.",
+        },
+      ],
+    },
+    {
+      id: "04",
+      title: "POLICIES & REVISIONS",
+      questions: [
+        {
+          q: "Why do you only allow one round of revisions per asset?",
+          a: "Because unlimited revisions create loops that delay your publishing schedule and dilute the original strategic intent. Every asset we deliver is built on data. One round is enough to address factual corrections, brand alignment, and reasonable creative adjustments.",
+        },
+        {
+          q: "What if I really need a second revision?",
+          a: "Contact your account manager directly. We will assess whether the issue is a misalignment in the original brief or a scope change on your end. If it is on us, we fix it at no cost. If it is a new direction you want to take, we scope it as an additional asset.",
+        },
+        {
+          q: "Can I change the creative direction mid-project?",
+          a: "Yes, but with a two-week notice window. Changing direction mid-cycle affects thumbnails, scripts, and the editorial calendar simultaneously. Two weeks lets us realign everything without disrupting your publishing schedule.",
+        },
+        {
+          q: "What happens if I am not happy with the results after 60 days?",
+          a: "If we have not measurably moved your CTR box-plot in 60 days, you do not pay for month two. If you are unhappy for reasons outside of CTR, we have a direct conversation about what is not working and either fix the strategy or part ways without friction.",
+        },
+      ],
+    },
   ];
 
-  return (
-    <section className="py-24 px-6 bg-white">
-      <div className="max-w-4xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-[0.9] mb-4">
-            Got Questions?<br />
-            We've Got Answers. <span className="text-brand">(No BS.)</span>
-          </h2>
-        </motion.div>
+  const [openCategory, setOpenCategory] = useState<number | null>(0);
+  const [openQuestion, setOpenQuestion] = useState<{ cat: number; q: number } | null>(null);
 
-        <div className="space-y-16">
-          {categories.map((category, catIdx) => (
-            <div key={catIdx}>
-              <h3 className="text-brand font-bold uppercase tracking-widest text-sm mb-8 flex items-center gap-4">
-                <span className="w-8 h-px bg-brand" />
-                {category.name}
-              </h3>
-              <div className="space-y-4">
-                {category.faqs.map((faq, i) => (
-                  <motion.div 
-                    key={i}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="border-b border-black/5 pb-6"
+  const handleToggleCategory = (idx: number) => {
+    setOpenCategory((prev) => (prev === idx ? null : idx));
+    setOpenQuestion(null);
+  };
+
+  const handleToggleQuestion = (catIdx: number, qIdx: number) => {
+    setOpenQuestion((prev) =>
+      prev && prev.cat === catIdx && prev.q === qIdx ? null : { cat: catIdx, q: qIdx }
+    );
+  };
+
+  return (
+    <section
+      id="faq"
+      className="py-24 md:py-32 px-6 md:px-12 border-t border-white/10 relative overflow-hidden"
+      style={{ background: "#080808" }}
+    >
+      <DarkGridBackground />
+      <div className="max-w-7xl mx-auto relative z-10">
+        <ScrollReveal direction="up" delay={0.1}>
+          <div>
+            <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-brand block mb-5">
+              FAQ
+            </span>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight text-white uppercase">
+              GOT QUESTIONS?
+              <br />
+              <span className="text-brand" style={{ WebkitTextStroke: "1px rgba(245,242,236,0.15)" }}>
+                WE'VE GOT
+              </span>
+              <br />
+              ANSWERS.
+          </h2>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal direction="up" delay={0.18}>
+          <div className="mt-16 md:mt-20 border border-white/10" id="faq-root">
+            {categories.map((cat, catIdx) => {
+              const isCatOpen = openCategory === catIdx;
+              return (
+                <div
+                  key={cat.id}
+                  className="border-b border-white/10 last:border-b-0 faq-category"
+                >
+                  {/* Category trigger */}
+                  <button
+                    type="button"
+                    onClick={() => handleToggleCategory(catIdx)}
+                    className="w-full grid grid-cols-[1fr_auto] items-center px-6 md:px-12 py-8 md:py-10 text-left transition-colors"
+                    style={{
+                      backgroundColor: isCatOpen ? "rgba(245,242,236,0.02)" : "transparent",
+                    }}
                   >
-                    <details className="group">
-                      <summary className="flex items-center justify-between cursor-pointer list-none">
-                        <h4 className="text-xl md:text-2xl font-bold tracking-tight uppercase group-open:text-brand transition-colors">
-                          "{faq.question}"
-                        </h4>
-                        <span className="text-2xl font-light transition-transform group-open:rotate-45">+</span>
-                      </summary>
-                      <div className="mt-4 text-gray-600 leading-relaxed text-lg">
-                        {faq.answer}
+                    <div className="flex items-center gap-6 md:gap-8">
+                      <span className="text-[11px] font-semibold tracking-[0.16em] uppercase text-brand">
+                        {cat.id}
+                      </span>
+                      <span className="text-2xl md:text-[28px] font-bold tracking-[0.06em] text-white uppercase">
+                        {cat.title}
+                      </span>
+                      <span className="text-[10px] font-medium tracking-[0.12em] uppercase text-neutral-400 hidden md:inline">
+                        {cat.questions.length} questions
+                      </span>
                       </div>
-                    </details>
-                  </motion.div>
-                ))}
+                    <span
+                      className="text-2xl text-brand"
+                      style={{ transform: isCatOpen ? "rotate(45deg)" : "rotate(0deg)", transition: "transform 0.2s ease" }}
+                    >
+                      +
+                    </span>
+                  </button>
+
+                  {/* Category body */}
+                  {isCatOpen && (
+                    <div className="border-t border-white/10 faq-cat-body">
+                      {cat.questions.map((q, qIdx) => {
+                        const isQOpen =
+                          openQuestion && openQuestion.cat === catIdx && openQuestion.q === qIdx;
+                        return (
+                          <div
+                            key={q.q}
+                            className="border-b border-white/5 last:border-b-0 faq-item"
+                          >
+                            <button
+                              type="button"
+                              onClick={() => handleToggleQuestion(catIdx, qIdx)}
+                              className="w-full flex items-start justify-between gap-6 px-6 md:px-12 py-7 text-left transition-colors"
+                              style={{
+                                backgroundColor: isQOpen
+                                  ? "rgba(245,242,236,0.02)"
+                                  : "transparent",
+                              }}
+                            >
+                              <span className="text-sm md:text-[15px] text-neutral-400 leading-relaxed">
+                                {q.q}
+                              </span>
+                              <span
+                                className="text-base md:text-lg text-brand q-icon flex-shrink-0 mt-1"
+                                style={{
+                                  transform: isQOpen ? "rotate(45deg)" : "rotate(0deg)",
+                                  transition: "transform 0.2s ease, color 0.2s ease",
+                                  color: isQOpen ? "#f5f2ec" : "#FF0033",
+                                }}
+                              >
+                                +
+                              </span>
+                            </button>
+                            {isQOpen && (
+                              <div className="px-6 md:px-12 pb-7 pt-1 faq-answer">
+                                <p className="text-sm md:text-[15px] text-neutral-400 leading-relaxed max-w-3xl">
+                                  {q.a}
+                                </p>
               </div>
+                            )}
             </div>
-          ))}
+                        );
+                      })}
         </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -1320,7 +2130,7 @@ const Footer = () => {
               to="/#pricing"
               className="inline-block border border-white px-12 py-4 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all"
             >
-              CHOOSE YOUR PLAN
+              Start Growing My Channel
             </Link>
           </div>
           
@@ -1361,14 +2171,16 @@ const FounderSection = () => {
         />
       </div>
 
-      <div className="relative max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <DarkGridBackground />
+
+      <div className="relative max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center z-10">
         <ScrollReveal direction="left" delay={0.1}>
           <div className="space-y-8 order-2 md:order-1">
             <div className="flex items-center space-x-3">
               <div className="w-1 h-4 bg-brand" />
               <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">WHO IS BEHIND VHORO MEDIA</span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-bold text-white tracking-tight uppercase leading-[0.9]">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight uppercase leading-[0.9]">
               João Camargo
             </h2>
             <div className="space-y-6 text-lg text-gray-400 leading-relaxed font-medium">
@@ -1411,11 +2223,11 @@ const ViewsCounter = () => {
           <div className="text-center space-y-8 md:space-y-10">
             {/* Headline */}
             <div>
-              <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.1] uppercase">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] uppercase">
                 STOP UPLOADING<br />
                 INTO THE <span 
                   className="text-brand"
-                  style={{ 
+              style={{
                     fontFamily: '"Rock Salt", cursive',
                     fontWeight: 900
                   }}
@@ -1423,7 +2235,7 @@ const ViewsCounter = () => {
                   VOID.
                 </span>
               </h2>
-            </div>
+          </div>
 
             {/* Body Text */}
             <div className="max-w-2xl mx-auto">
@@ -1447,9 +2259,19 @@ const ViewsCounter = () => {
             </div>
 
             {/* Disclaimers */}
-            <div className="pt-8 border-t border-white/10 max-w-3xl mx-auto">
-              <p className="text-sm text-white/60">
-                No contract required · 60-day performance guarantee · Results visible in YouTube Studio
+            <div className="pt-8 border-t border-white/10 max-w-4xl mx-auto">
+              <p className="text-sm text-white/60 flex flex-wrap items-center justify-center gap-2 md:gap-3">
+                <span>No long-term contracts</span>
+                <span className="text-white/30">•</span>
+                <span>Cancel anytime</span>
+                <span className="text-white/30">•</span>
+                <span>First assets in 7 days</span>
+                <span className="text-white/30">•</span>
+                <span>60-day CTR guarantee</span>
+                <span className="text-white/30">•</span>
+                <span>No calls or meetings required</span>
+                <span className="text-white/30">•</span>
+                <span>Results visible in YouTube Studio</span>
               </p>
             </div>
           </div>
@@ -1522,6 +2344,10 @@ const Home = () => {
       <InstagramSection />
       <CaseStudiesSection />
       <Services />
+      <PostSignupTimelineSection />
+      <DivisionOfWorkSection />
+      <HeroBenefitsStrip />
+      <ObjectionsSection />
       <PricingSection />
       <PerformanceGuaranteeSection />
       <Blog />
